@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BmiCalc</string>
+    <string name="favorite">Favorite</string>
+    <string name="delete">Delete</string>
+    <string name="bmi_history">BMI History</string>
+    <string name="back">Back</string>
+</resources>
