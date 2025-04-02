@@ -22,10 +22,13 @@ class BmiRepository(
     val bmiDao: BmiDao
 ) : IBmiRepository {
 
+
+
+
     override fun getFilteredRecords(filter: BmiFilter, page: Int, pageSize: Int): Flow<List<BmiRecordEntity>> {
         // Calculate time range
         val timezone = TimeZone.currentSystemDefault()
-        val timeRange = filter.timeRange
+        val timeRange = filter.time
         val (startTime, endTime) = when (timeRange) {
             TimeRange.Week -> {
                 val now = Clock.System.now()
@@ -50,16 +53,61 @@ class BmiRepository(
         return bmiDao.getFilteredRecords(
             startTime = startTime?.toEpochMilliseconds(),
             endTime = endTime?.toEpochMilliseconds(),
-            minBmi = filter.bmiRange?.start,
-            maxBmi = filter.bmiRange?.end,
-            minWeight = filter.weightRange?.start,
-            maxWeight = filter.weightRange?.end,
-            minHeight = filter.heightRange?.start,
-            maxHeight = filter.heightRange?.end,
+            minBmi = filter.bmi?.start,
+            maxBmi = filter.bmi?.end,
+            minWeight = filter.weight?.start,
+            maxWeight = filter.weight?.end,
+            minHeight = filter.height?.start,
+            maxHeight = filter.height?.end,
             offset = pageSize * (page - 1),
             limit = pageSize
         )
     }
+
+    override fun getRecordsWithFavorite(
+        filter: BmiFilter,
+        page: Int,
+        pageSize: Int
+    ): Flow<List<BmiRecordWithFavorite>> {
+        val timezone = TimeZone.currentSystemDefault()
+        val timeRange = filter.time
+        val (startTime, endTime) = when (timeRange) {
+            TimeRange.Week -> {
+                val now = Clock.System.now()
+                Pair(now.minus(7, DateTimeUnit.DAY, timezone), now)
+            }
+            TimeRange.Month -> {
+                val now = Clock.System.now()
+                Pair(now.minus(30, DateTimeUnit.DAY,timezone), now)
+            }
+            TimeRange.Year -> {
+                val now = Clock.System.now()
+                Pair(now.minus(365, DateTimeUnit.DAY,timezone), now)
+            }
+            TimeRange.Custom() -> {
+                // Assuming you have custom start/end in your BmiFilter
+                val custom = timeRange as TimeRange.Custom
+                Pair(custom.start, custom.end)
+            }
+            TimeRange.All -> Pair<Instant?,Instant?>(null,null)
+            else -> Pair<Instant?,Instant?>(null,null)
+        }
+        return bmiDao.getFilteredBmiRecordsPaged(
+            timeMin = startTime?.toEpochMilliseconds(),
+            timeMax = endTime?.toEpochMilliseconds(),
+            bmiMin = filter.bmi?.start,
+            bmiMax = filter.bmi?.end,
+            weightMin = filter.weight?.start,
+            weightMax = filter.weight?.end,
+            heightMin = filter.height?.start,
+            heightMax = filter.height?.end,
+            sortField = filter.order?.orderBy?.text,
+            sortOrder = filter.order?.orderType?.text,
+            offset = pageSize * (page - 1),
+            limit = pageSize
+        )
+    }
+
     override suspend fun getRecord(id: Long): Flow<BmiRecordEntity> {
         return bmiDao.get(id).flowOn(Dispatchers.IO)
     }

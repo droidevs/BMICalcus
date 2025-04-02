@@ -3,6 +3,8 @@ package io.droidevs.bmicalc.data.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
+
 import kotlinx.coroutines.flow.Flow
 
 // dao/BmiDao.kt
@@ -54,5 +56,66 @@ interface BmiDao {
         offset: Int,
         limit: Int,
     ): Flow<List<BmiRecordEntity>>
+
+    @Transaction
+    @Query("""
+    SELECT b.*,
+           CASE WHEN f.id IS NULL THEN 0 ELSE 1 END as isFavorite
+    FROM bmi_records b
+    LEFT JOIN favorite_bmi_records f ON b.id = f.bmiRecordId
+    WHERE b.id = :id
+""")
+    suspend fun getBmiRecordWithFavoriteById(id: Long): BmiRecordWithFavorite?
+
+    @Transaction
+    @Query("""
+    SELECT b.*, 
+
+           CASE WHEN f.id IS NULL THEN 0 ELSE 1 END as isFavorite
+    FROM bmi_records b
+    LEFT JOIN favorite_bmi_records f ON b.id = f.bmiRecordId
+    ORDER BY b.date DESC
+""")
+    fun getAllBmiRecordsWithFavoriteStatus(): Flow<List<BmiRecordWithFavorite>>
+
+    @Transaction
+    @Query("""
+        SELECT b.*,
+               CASE WHEN f.id IS NULL THEN 0 ELSE 1 END as isFavorite
+        FROM bmi_records b
+        LEFT JOIN favorite_bmi_records f ON b.id = f.bmiRecordId
+        WHERE (:bmiMin IS NULL OR b.bmi >= :bmiMin)
+          AND (:bmiMax IS NULL OR b.bmi <= :bmiMax)
+          AND (:weightMin IS NULL OR b.weight >= :weightMin)
+          AND (:weightMax IS NULL OR b.weight <= :weightMax)
+          AND (:heightMin IS NULL OR b.height >= :heightMin)
+          AND (:heightMax IS NULL OR b.height <= :heightMax)
+          AND (:timeMin IS NULL OR b.date >= :timeMin)
+          AND (:timeMax IS NULL OR b.date <= :timeMax)
+        ORDER BY 
+        CASE WHEN :sortField = 'BMI' AND :sortOrder = 'ASC' THEN b.bmi END ASC,
+        CASE WHEN :sortField = 'BMI' AND :sortOrder = 'DESC' THEN b.bmi END DESC,
+        CASE WHEN :sortField = 'WEIGHT' AND :sortOrder = 'ASC' THEN b.weight END ASC,
+        CASE WHEN :sortField = 'WEIGHT' AND :sortOrder = 'DESC' THEN b.weight END DESC,
+        CASE WHEN :sortField = 'HEIGHT' AND :sortOrder = 'ASC' THEN b.height END ASC,
+        CASE WHEN :sortField = 'HEIGHT' AND :sortOrder = 'DESC' THEN b.height END DESC,
+        CASE WHEN :sortField = 'DATE' AND :sortOrder = 'ASC' THEN b.date END ASC,
+        CASE WHEN :sortField = 'DATE' AND :sortOrder = 'DESC' THEN b.date END DESC
+        LIMIT :limit OFFSET :offset
+    """)
+    fun getFilteredBmiRecordsPaged(
+        bmiMin: Float?,
+        bmiMax: Float?,
+        weightMin: Float?,
+        weightMax: Float?,
+        heightMin: Float?,
+        heightMax: Float?,
+        timeMin: Long?,
+        timeMax: Long?,
+        sortField: String?,
+        sortOrder: String?,
+        offset: Int,
+        limit: Int,
+    ): Flow<List<BmiRecordWithFavorite>>
 
 }

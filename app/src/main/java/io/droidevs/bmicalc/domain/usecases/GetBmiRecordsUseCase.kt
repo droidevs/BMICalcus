@@ -13,7 +13,7 @@ class GetBmiRecordsUseCase(
 
     suspend operator fun invoke(filter: BmiFilter?, page: Int, size: Int): Flow<List<BmiRecord>>{
         return filter?.let {
-            bmiRepository.getFilteredRecords(filter, page,size).map { it ->
+            bmiRepository.getRecordsWithFavorite(filter, page,size).map { it ->
                 it.map {
                     it.toDomain()
                 }

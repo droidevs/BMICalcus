@@ -1,6 +1,7 @@
 package io.droidevs.bmicalc.domain
 
 import io.droidevs.bmicalc.data.db.BmiRecordEntity
+import io.droidevs.bmicalc.data.db.BmiRecordWithFavorite
 import kotlinx.datetime.Instant
 
 data class BmiRecord(
@@ -9,6 +10,7 @@ data class BmiRecord(
     val height: Float,
     val weight: Float,
     val date: Instant,
+    val isFavorite: Boolean = false
 )
 
 fun BmiRecord.toEntity(): BmiRecordEntity {
@@ -27,6 +29,17 @@ fun BmiRecordEntity.toDomain(): BmiRecord {
         height = height,
         weight = weight,
         date = Instant.fromEpochMilliseconds(date)
+    )
+}
+
+fun BmiRecordWithFavorite.toDomain(): BmiRecord {
+    return BmiRecord(
+        id = bmiRecord.id,
+        bmi = bmiRecord.bmi,
+        height = bmiRecord.height,
+        weight = bmiRecord.weight,
+        date = Instant.fromEpochMilliseconds(bmiRecord.date),
+        isFavorite = isFavorite
     )
 }
 

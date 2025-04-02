@@ -14,6 +14,8 @@ interface IBmiRepository {
 
     fun getFilteredRecords(filter: BmiFilter, page: Int, pageSize: Int): Flow<List<BmiRecordEntity>>
 
+    fun getRecordsWithFavorite(filter: BmiFilter, page: Int, pageSize: Int) : Flow<List<BmiRecordWithFavorite>>
+
     fun allRecords() : Flow<List<BmiRecordEntity>>
 
     fun averageBmi() : Flow<Float?>
