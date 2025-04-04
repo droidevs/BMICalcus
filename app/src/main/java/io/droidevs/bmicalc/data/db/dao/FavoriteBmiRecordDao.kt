@@ -1,6 +1,8 @@
-package io.droidevs.bmicalc.data.db
+package io.droidevs.bmicalc.data.db.dao
 
 import androidx.room.*
+import io.droidevs.bmicalc.data.db.entities.FavoriteBmiRecordEntity
+import io.droidevs.bmicalc.data.db.relations.FavoriteWithBmiData
 import kotlinx.coroutines.flow.Flow
 
 @Dao

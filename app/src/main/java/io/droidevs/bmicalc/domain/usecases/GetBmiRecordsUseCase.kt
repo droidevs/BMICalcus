@@ -1,6 +1,6 @@
 package io.droidevs.bmicalc.domain.usecases
 
-import io.droidevs.bmicalc.data.db.BmiRepository
+import io.droidevs.bmicalc.data.repository.BmiRepository
 import io.droidevs.bmicalc.domain.BmiFilter
 import io.droidevs.bmicalc.domain.BmiRecord
 import io.droidevs.bmicalc.domain.toDomain

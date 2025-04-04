@@ -1,11 +1,10 @@
-package io.droidevs.bmicalc.data.db
+package io.droidevs.bmicalc.data.db.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import io.droidevs.bmicalc.domain.BmiRecord
-import java.util.Date
 
 @Entity(
     tableName = "favorite_bmi_records",

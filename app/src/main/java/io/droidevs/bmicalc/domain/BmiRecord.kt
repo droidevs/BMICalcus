@@ -1,7 +1,7 @@
 package io.droidevs.bmicalc.domain
 
-import io.droidevs.bmicalc.data.db.BmiRecordEntity
-import io.droidevs.bmicalc.data.db.BmiRecordWithFavorite
+import io.droidevs.bmicalc.data.db.entities.BmiRecordEntity
+import io.droidevs.bmicalc.data.db.relations.BmiRecordWithFavorite
 import kotlinx.datetime.Instant
 
 data class BmiRecord(

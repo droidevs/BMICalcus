@@ -1,9 +1,12 @@
-package io.droidevs.bmicalc.data.db
+package io.droidevs.bmicalc.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
+import io.droidevs.bmicalc.data.db.entities.BmiRecordEntity
+import io.droidevs.bmicalc.data.db.relations.BmiRecordWithFavorite
 
 import kotlinx.coroutines.flow.Flow
 
@@ -15,6 +18,9 @@ interface BmiDao {
     suspend fun get(id: Long): Flow<BmiRecordEntity>
     @Insert
     suspend fun insert(record: BmiRecordEntity)
+
+    @Update
+    suspend fun update(record: BmiRecordEntity)
 
     @Query("DELETE FROM bmi_records WHERE id = :id")
     suspend fun delete(id: Long)

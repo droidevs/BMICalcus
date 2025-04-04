@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
+    kotlin("plugin.serialization") version "2.0.21"
 }
 
 android {
@@ -92,4 +93,7 @@ dependencies {
 
     // Hilt Navigation Compose
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(kotlin("script-runtime"))
+    // Kotlinx Serialization
+    implementation(libs.kotlinx.serialization.json)
 }

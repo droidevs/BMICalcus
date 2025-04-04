@@ -1,5 +1,7 @@
-package io.droidevs.bmicalc.data.db
+package io.droidevs.bmicalc.data.repository
 
+import io.droidevs.bmicalc.data.db.entities.FavoriteBmiRecordEntity
+import io.droidevs.bmicalc.data.db.relations.FavoriteWithBmiData
 import io.droidevs.bmicalc.domain.BmiFilter
 import kotlinx.coroutines.flow.Flow
 

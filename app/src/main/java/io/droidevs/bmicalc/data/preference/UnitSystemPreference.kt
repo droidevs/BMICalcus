@@ -1,7 +1,7 @@
 package io.droidevs.bmicalc.data.preference
 
 
-import io.droidevs.bmicalc.model.UnitSystem
+import io.droidevs.bmicalc.data.model.UnitSystem
 import kotlinx.coroutines.flow.Flow
 
 interface UnitSystemPreference {

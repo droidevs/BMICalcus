@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import io.droidevs.bmicalc.data.db.dao.BmiDao
+import io.droidevs.bmicalc.data.db.entities.BmiRecordEntity
 
 
 @Database(

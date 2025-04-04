@@ -4,7 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
-import io.droidevs.bmicalc.model.BmiScore
+import io.droidevs.bmicalc.data.model.BmiScore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

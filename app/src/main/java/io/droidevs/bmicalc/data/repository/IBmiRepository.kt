@@ -1,7 +1,8 @@
-package io.droidevs.bmicalc.data.db
+package io.droidevs.bmicalc.data.repository
 
+import io.droidevs.bmicalc.data.db.entities.BmiRecordEntity
+import io.droidevs.bmicalc.data.db.relations.BmiRecordWithFavorite
 import io.droidevs.bmicalc.domain.BmiFilter
-import io.droidevs.bmicalc.domain.BmiRecord
 import kotlinx.coroutines.flow.Flow
 
 
@@ -21,6 +22,8 @@ interface IBmiRepository {
     fun averageBmi() : Flow<Float?>
 
     suspend fun addRecord(record: BmiRecordEntity)
+
+    suspend fun updateRecord(record: BmiRecordEntity)
 
     suspend fun deleteRecord(id: Long)
 

@@ -1,4 +1,4 @@
-package io.droidevs.bmicalc.model
+package io.droidevs.bmicalc.data.model
 
 import io.droidevs.bmicalc.domain.Range
 
@@ -48,7 +48,7 @@ enum class WeightUnit(
 
 
     fun convert(weight: Float, targetUnitSystem: UnitSystem) : Float {
-        val targetUnit = WeightUnit.getUnit(targetUnitSystem)
+        val targetUnit = getUnit(targetUnitSystem)
         if (targetUnit != this){
             return when (targetUnit) {
                 KG -> weight * 2.20462f
@@ -99,7 +99,7 @@ enum class HeightUnit(
 
 
     fun convert(height: Float, targetUnitSystem: UnitSystem) : Float {
-        val targetUnit = HeightUnit.getUnit(targetUnitSystem)
+        val targetUnit = getUnit(targetUnitSystem)
         if (targetUnit != this){
             return when (targetUnit) {
                 CM -> toDefault(height)

@@ -1,7 +1,7 @@
 package io.droidevs.bmicalc.domain.usecases
 
 import io.droidevs.bmicalc.data.preference.LastBmiScorePreference
-import io.droidevs.bmicalc.model.BmiScore
+import io.droidevs.bmicalc.data.model.BmiScore
 import kotlinx.coroutines.flow.Flow
 
 class GetLastSubmittedBmiScoreUseCase(

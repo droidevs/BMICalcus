@@ -1,6 +1,6 @@
 package io.droidevs.bmicalc.data.preference
 
-import io.droidevs.bmicalc.model.BmiScore
+import io.droidevs.bmicalc.data.model.BmiScore
 import kotlinx.coroutines.flow.Flow
 
 

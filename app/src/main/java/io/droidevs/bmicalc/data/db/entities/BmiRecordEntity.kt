@@ -1,4 +1,4 @@
-package io.droidevs.bmicalc.data.db
+package io.droidevs.bmicalc.data.db.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

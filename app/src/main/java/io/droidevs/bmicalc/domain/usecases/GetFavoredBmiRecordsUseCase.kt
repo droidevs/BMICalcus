@@ -1,7 +1,6 @@
 package io.droidevs.bmicalc.domain.usecases
 
-import androidx.compose.animation.core.rememberTransition
-import io.droidevs.bmicalc.data.db.IFavoriteBmiRepository
+import io.droidevs.bmicalc.data.repository.IFavoriteBmiRepository
 import io.droidevs.bmicalc.domain.BmiFilter
 import io.droidevs.bmicalc.domain.FavoredBmiRecord
 import io.droidevs.bmicalc.domain.toDomain

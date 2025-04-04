@@ -1,6 +1,6 @@
 package io.droidevs.bmicalc.domain.usecases
 
-import io.droidevs.bmicalc.data.db.IFavoriteBmiRepository
+import io.droidevs.bmicalc.data.repository.IFavoriteBmiRepository
 
 class AddToFavoritesUseCase(
     val repository: IFavoriteBmiRepository

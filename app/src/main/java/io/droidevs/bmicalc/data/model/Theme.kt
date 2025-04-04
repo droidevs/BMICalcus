@@ -1,4 +1,4 @@
-package io.droidevs.bmicalc.model
+package io.droidevs.bmicalc.data.model
 
 enum class Theme(
     val themeName: String

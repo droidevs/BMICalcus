@@ -1,7 +1,7 @@
 package io.droidevs.bmicalc.domain.usecases
 
 import io.droidevs.bmicalc.data.preference.ThemePreference
-import io.droidevs.bmicalc.model.Theme
+import io.droidevs.bmicalc.data.model.Theme
 
 class UpdateThemeUseCase(
     private val preference : ThemePreference

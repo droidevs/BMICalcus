@@ -1,22 +1,19 @@
-package io.droidevs.bmicalc.data.db
+package io.droidevs.bmicalc.data.repository
 
+import io.droidevs.bmicalc.data.db.dao.BmiDao
+import io.droidevs.bmicalc.data.db.entities.BmiRecordEntity
+import io.droidevs.bmicalc.data.db.relations.BmiRecordWithFavorite
 import io.droidevs.bmicalc.domain.BmiFilter
-import io.droidevs.bmicalc.domain.BmiRecord
-import io.droidevs.bmicalc.domain.toDomain
 import io.droidevs.bmicalc.model.TimeRange
-import io.droidevs.bmicalc.ui.components.TimeRangeChip
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
-import kotlinx.datetime.toJavaInstant
-import java.util.Date
 
 class BmiRepository(
     val bmiDao: BmiDao
@@ -128,6 +125,10 @@ class BmiRepository(
         withContext(Dispatchers.IO){
             bmiDao.insert(record)
         }
+    }
+
+    override suspend fun updateRecord(record: BmiRecordEntity) {
+        bmiDao.update(record)
     }
 
     override suspend fun deleteRecord(id: Long) {

@@ -1,6 +1,6 @@
 package io.droidevs.bmicalc.domain
 
-import io.droidevs.bmicalc.data.db.FavoriteWithBmiData
+import io.droidevs.bmicalc.data.db.relations.FavoriteWithBmiData
 
 class FavoredBmiRecord(
     val id: Long,

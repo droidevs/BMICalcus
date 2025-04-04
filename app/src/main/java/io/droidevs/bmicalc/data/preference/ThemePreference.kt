@@ -1,6 +1,6 @@
 package io.droidevs.bmicalc.data.preference
 
-import io.droidevs.bmicalc.model.Theme
+import io.droidevs.bmicalc.data.model.Theme
 import kotlinx.coroutines.flow.Flow
 
 
