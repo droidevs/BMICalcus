@@ -1,7 +1,7 @@
-package io.droidevs.bmicalc.data.repository
+package io.droidevs.bmicalc.domain.repository
 
-import io.droidevs.bmicalc.data.db.entities.BmiGoalEntity
 import io.droidevs.bmicalc.data.model.ActiveBmiGoal
+import io.droidevs.bmicalc.domain.BmiGoal
 import io.droidevs.bmicalc.domain.GoalFlag
 import kotlinx.coroutines.flow.Flow
 import io.droidevs.wallpaper.domain.result.Result
@@ -34,19 +34,19 @@ interface BmiGoalRecordRepository {
         query: String? = null,
         page: Int = 0,
         pageSize: Int = 20
-    ): Flow<Result<List<BmiGoalEntity>, DatabaseError>>
+    ): Flow<Result<List<BmiGoal>, DatabaseError>>
 
     /**
      * Retrieves full goal history
      * @return Flow emitting [Result.Success] with list of all goals or [Result.Failure] on error
      */
-    fun getGoalHistory(): Flow<Result<List<BmiGoalEntity>, DatabaseError>>
+    fun getGoalHistory(): Flow<Result<List<BmiGoal>, DatabaseError>>
 
 
-    suspend fun deleteGoal(goal: BmiGoalEntity) : Result<Int, DatabaseError>
+    suspend fun deleteGoal(goal: BmiGoal) : Result<Int, DatabaseError>
 
     suspend fun deleteGoal(goalId: Long) : Result<Int, DatabaseError>
 
-    suspend fun insertGoal(goal : BmiGoalEntity) : Result<Long, DatabaseError>
+    suspend fun insertGoal(goal : BmiGoal) : Result<Long, DatabaseError>
 
 }

@@ -1,18 +1,20 @@
 package io.droidevs.bmicalc.data.repository
 
-import io.droidevs.bmicalc.data.db.InfrastructureException
 import io.droidevs.bmicalc.data.db.dao.BmiGoalDao
 import io.droidevs.bmicalc.data.db.entities.BmiGoalEntity
 import io.droidevs.bmicalc.data.db.exceptions.flowRunCatchingDatabase
 import io.droidevs.bmicalc.data.db.exceptions.runCatchingDatabaseResult
+import io.droidevs.bmicalc.data.mapers.toDomain
 import io.droidevs.bmicalc.data.model.ActiveBmiGoal
 import io.droidevs.bmicalc.dispatchers.CoroutineDispatcherProvider
+import io.droidevs.bmicalc.domain.BmiGoal
 import io.droidevs.bmicalc.domain.GoalFlag
+import io.droidevs.bmicalc.domain.repository.BmiGoalRecordRepository
+import io.droidevs.bmicalc.domain.result.mapResult
+import io.droidevs.bmicalc.domain.toEntity
 import io.droidevs.wallpaper.domain.result.errors.DatabaseError
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import io.droidevs.wallpaper.domain.result.Result
 class BmiGoalRecordRepositoryImpl(
@@ -56,7 +58,7 @@ class BmiGoalRecordRepositoryImpl(
         query: String?,
         page: Int,
         pageSize: Int
-    ): Flow<Result<List<BmiGoalEntity>, DatabaseError>> {
+    ): Flow<Result<List<BmiGoal>, DatabaseError>> {
         return flowRunCatchingDatabase {
             dao.getGoals(
                 status = flag?.name,
@@ -64,19 +66,27 @@ class BmiGoalRecordRepositoryImpl(
                 offset = page * pageSize,
                 limit = pageSize
             )
-        }.flowOn(dispatcher.io)
+        }.mapResult { goals ->
+            goals.map {
+                it.toDomain()
+            }
+        }
     }
 
-    override fun getGoalHistory(): Flow<Result<List<BmiGoalEntity>, DatabaseError>> {
+    override fun getGoalHistory(): Flow<Result<List<BmiGoal>, DatabaseError>> {
         return flowRunCatchingDatabase {
             dao.getAllGoals()
-        }.flowOn(dispatcher.io)
+        }.mapResult { goals ->
+            goals.map {
+                it.toDomain()
+            }
+        }
     }
 
-    override suspend fun deleteGoal(goal: BmiGoalEntity): Result<Int, DatabaseError> =
+    override suspend fun deleteGoal(goal: BmiGoal): Result<Int, DatabaseError> =
         withContext(dispatcher.io){
             runCatchingDatabaseResult {
-                dao.deleteGoal(goal)
+                dao.deleteGoal(goal.toEntity())
             }
         }
 
@@ -87,10 +97,10 @@ class BmiGoalRecordRepositoryImpl(
             }
         }
 
-    override suspend fun insertGoal(goal: BmiGoalEntity): Result<Long, DatabaseError> =
+    override suspend fun insertGoal(goal: BmiGoal): Result<Long, DatabaseError> =
         withContext(dispatcher.io){
             runCatchingDatabaseResult {
-                dao.insertGoal(goal)
+                dao.insertGoal(goal.toEntity())
             }
         }
 
