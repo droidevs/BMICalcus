@@ -10,7 +10,7 @@ import io.droidevs.bmicalc.ui.model.GoalInput
 
 
 @Stable
-class BmiGoalSetUpScreenState(
+data class BmiGoalSetUpScreenState(
     val goalInput: GoalInput = GoalInput(),
     val bmiScore: BmiScore?= null,
     val activeBmiGoal : ActiveBmiGoal? = null,
