@@ -158,9 +158,9 @@ fun AnimatedAppBar(
 @Composable
 fun BackAppBar(
     title: String? = null,
-    menuItems: List<AppBarMenuItem>,
+    menuItems: List<AppBarMenuItem> = emptyList(),
     onBackPressed: () -> Unit,
-    onMoreClicked: (AppBarMenuItem) -> Unit,
+    onMoreClicked: ((AppBarMenuItem) -> Unit)? = null,
 ) {
 
     AnimatedAppBar(
@@ -188,20 +188,21 @@ fun BackAppBar(
                         tint = Color.White
                     )
                 }
-
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                    modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
-                ) {
-                    menuItems.forEach { item ->
-                        DropdownMenuItem(
-                            text = { Text(item.title) },
-                            onClick = {
-                                expanded = false
-                                onMoreClicked.invoke(item)
-                            }
-                        )
+                if(menuItems != null && menuItems.isNotEmpty()) {
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
+                    ) {
+                        menuItems.forEach { item ->
+                            DropdownMenuItem(
+                                text = { Text(item.title) },
+                                onClick = {
+                                    expanded = false
+                                    onMoreClicked?.invoke(item)
+                                }
+                            )
+                        }
                     }
                 }
             }
