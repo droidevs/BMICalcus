@@ -1,4 +1,7 @@
 package io.droidevs.bmicalc.ui.model
 
-class GoalInput {
-}
+data class GoalInput(
+    val targetDate: Long? = null,
+    val targetBmi: Float = 0f,
+    val motivation: String = ""
+)
