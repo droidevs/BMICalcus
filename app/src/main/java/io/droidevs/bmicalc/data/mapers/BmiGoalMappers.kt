@@ -1,18 +1,8 @@
-package io.droidevs.bmicalc.domain
+package io.droidevs.bmicalc.data.mapers
 
-import io.droidevs.bmicalc.data.db.dao.BmiGoalDao
 import io.droidevs.bmicalc.data.db.entities.BmiGoalEntity
-import kotlinx.datetime.Clock
+import io.droidevs.bmicalc.domain.model.BmiGoal
 import kotlinx.datetime.Instant
-
-data class BmiGoal(
-    val id: Long,
-    val targetBmi: Float = 0f,
-    val targetDate: Instant? = null,  // Optional target date
-    val initialDate: Instant? = Clock.System.now(),
-    val motivation: String = "",
-    val flag: GoalFlag
-)
 
 fun BmiGoalEntity.toDomain() : BmiGoal {
     return BmiGoal(

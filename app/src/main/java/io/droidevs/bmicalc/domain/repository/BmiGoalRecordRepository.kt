@@ -1,9 +1,8 @@
 package io.droidevs.bmicalc.domain.repository
 
 import io.droidevs.bmicalc.data.model.ActiveBmiGoal
-import io.droidevs.bmicalc.domain.BmiGoal
+import io.droidevs.bmicalc.domain.model.BmiGoal
 import io.droidevs.bmicalc.domain.GoalFilter
-import io.droidevs.bmicalc.domain.GoalFlag
 import kotlinx.coroutines.flow.Flow
 import io.droidevs.wallpaper.domain.result.Result
 import io.droidevs.wallpaper.domain.result.errors.DatabaseError
