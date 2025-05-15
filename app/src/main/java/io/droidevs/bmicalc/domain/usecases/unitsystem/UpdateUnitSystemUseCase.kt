@@ -1,4 +1,4 @@
-package io.droidevs.bmicalc.domain.usecases
+package io.droidevs.bmicalc.domain.usecases.unitsystem
 
 import io.droidevs.bmicalc.data.preference.UnitSystemPreference
 import io.droidevs.bmicalc.data.model.UnitSystem

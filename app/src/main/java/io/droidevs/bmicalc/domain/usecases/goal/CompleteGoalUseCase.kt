@@ -1,4 +1,4 @@
-package io.droidevs.bmicalc.domain.usecases
+package io.droidevs.bmicalc.domain.usecases.goal
 
 import io.droidevs.bmicalc.data.model.ActiveBmiGoal
 import io.droidevs.bmicalc.data.repository.BmiGoalRecordRepository

@@ -1,4 +1,7 @@
-package io.droidevs.bmicalc.domain.usecases
+package io.droidevs.bmicalc.domain.usecases.goal
+
+import io.droidevs.bmicalc.domain.usecases.AddGoalRecordUseCase
+import io.droidevs.bmicalc.domain.usecases.GetBmiGoalRecordsUseCase
 
 class BmiGoalUseCases(
     val delete : DeleteGoalUseCase,

@@ -1,4 +1,4 @@
-package io.droidevs.bmicalc.domain.usecases
+package io.droidevs.bmicalc.domain.usecases.goal
 
 import io.droidevs.bmicalc.data.model.ActiveBmiGoal
 import io.droidevs.bmicalc.data.preference.BmiGoalPreference
@@ -12,7 +12,7 @@ class GetActiveBmiGoalUseCase(
 ) {
 
 
-    suspend fun invoke() : Flow<Result<ActiveBmiGoal, PreferenceError>> {
+    suspend operator fun invoke() : Flow<Result<ActiveBmiGoal, PreferenceError>> {
         return bmiGoalPreference.getGoal()
     }
 }
