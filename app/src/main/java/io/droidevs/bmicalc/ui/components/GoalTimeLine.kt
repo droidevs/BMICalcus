@@ -25,7 +25,6 @@ import kotlinx.datetime.daysUntil
 fun GoalTimeline(
     startDate: Instant,
     targetDate: Instant?,
-    currentProgress: Float,
     modifier: Modifier = Modifier
 ) {
     targetDate?.let {

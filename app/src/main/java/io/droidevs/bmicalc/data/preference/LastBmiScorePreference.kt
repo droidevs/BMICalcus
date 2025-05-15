@@ -1,12 +1,14 @@
 package io.droidevs.bmicalc.data.preference
 
 import io.droidevs.bmicalc.data.model.BmiScore
+import io.droidevs.wallpaper.domain.result.Result
+import io.droidevs.wallpaper.domain.result.errors.PreferenceError
 import kotlinx.coroutines.flow.Flow
 
 
 interface LastBmiScorePreference {
 
-    suspend fun saveScore(score: BmiScore)
+    suspend fun saveScore(score: BmiScore) : Result<BmiScore, PreferenceError>
 
-    fun retrieveScore() : Flow<BmiScore?>
+    fun getScore() : Flow<Result<BmiScore, PreferenceError>>
 }
