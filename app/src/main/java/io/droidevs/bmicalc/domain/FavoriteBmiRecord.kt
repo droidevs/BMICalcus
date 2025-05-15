@@ -1,5 +1,6 @@
 package io.droidevs.bmicalc.domain
 
+import io.droidevs.bmicalc.data.db.entities.FavoriteBmiRecordEntity
 import io.droidevs.bmicalc.data.db.relations.FavoriteWithBmiData
 
 class FavoredBmiRecord(
@@ -24,5 +25,14 @@ fun FavoriteWithBmiData.toDomain(): FavoredBmiRecord {
         weight = this.bmiData.weight,
         date = this.bmiData.date,
         favoredDate = this.favorite.addedAt,
+    )
+}
+
+fun FavoredBmiRecord.toEntity(): FavoriteBmiRecordEntity {
+    return FavoriteBmiRecordEntity(
+        id = this.id,
+        bmiRecordId = this.recordId,
+        customNote = note,
+        addedAt = this.favoredDate
     )
 }

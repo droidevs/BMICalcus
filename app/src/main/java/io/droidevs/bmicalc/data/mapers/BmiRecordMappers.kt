@@ -1,18 +1,11 @@
-package io.droidevs.bmicalc.domain
+package io.droidevs.bmicalc.data.mapers
 
 import io.droidevs.bmicalc.data.db.entities.BmiRecordEntity
 import io.droidevs.bmicalc.data.db.relations.BmiRecordWithFavorite
-import io.droidevs.bmicalc.domain.model.BMICategory
+import io.droidevs.bmicalc.data.db.relations.FavoriteWithBmiData
+import io.droidevs.bmicalc.domain.model.BmiRecord
+import io.droidevs.bmicalc.domain.model.FavoredBmiRecord
 import kotlinx.datetime.Instant
-
-data class BmiRecord(
-    val id: Long,
-    val bmi: Float,
-    val height: Float,
-    val weight: Float,
-    val date: Instant,
-    val isFavorite: Boolean = false
-)
 
 fun BmiRecord.toEntity(): BmiRecordEntity {
     return BmiRecordEntity(
@@ -44,3 +37,14 @@ fun BmiRecordWithFavorite.toDomain(): BmiRecord {
     )
 }
 
+fun FavoriteWithBmiData.toDomain(): FavoredBmiRecord {
+    return FavoredBmiRecord(
+        id = favorite.id,
+        recordId = bmiData.id,
+        bmi = bmiData.bmi,
+        height = bmiData.height,
+        weight = bmiData.weight,
+        date = Instant.fromEpochMilliseconds(bmiData.date),
+        note = favorite.customNote?: "",
+    )
+}

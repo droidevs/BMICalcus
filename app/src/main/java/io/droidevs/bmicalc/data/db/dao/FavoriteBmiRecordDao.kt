@@ -8,16 +8,19 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FavoriteBmiRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(favorite: FavoriteBmiRecordEntity): Flow<Long>
+    suspend fun insert(favorite: FavoriteBmiRecordEntity): Long
 
     @Update
     suspend fun update(favorite: FavoriteBmiRecordEntity)
 
+    @Query("UPDATE favorite_bmi_records SET customNote = :customNote WHERE id = :id")
+    suspend fun updateCustomNote(id: Long, customNote: String) : Int
+
     @Query("DELETE FROM favorite_bmi_records WHERE id = :id")
-    suspend fun deleteById(id: Long)
+    suspend fun deleteById(id: Long) : Int
 
     @Query("DELETE FROM favorite_bmi_records WHERE bmiRecordId = :bmiRecordId")
-    suspend fun deleteByBmiRecordId(bmiRecordId: Long)
+    suspend fun deleteByBmiRecordId(bmiRecordId: Long) : Int
 
     @Query("SELECT * FROM favorite_bmi_records WHERE id = :id")
     suspend fun getById(id: Long): Flow<FavoriteBmiRecordEntity?>

@@ -20,4 +20,7 @@ data class BmiRecordEntity(
 
     @ColumnInfo(name = "date")
     val date: Long = System.currentTimeMillis(),
+
+    @ColumnInfo(name = "is_favored")
+    val isFavored: Boolean = false
 )

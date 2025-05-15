@@ -1,9 +1,8 @@
-package io.droidevs.bmicalc.domain
+package io.droidevs.bmicalc.domain.model
 
-import io.droidevs.bmicalc.model.Order
-import io.droidevs.bmicalc.model.TimeRange
+import io.droidevs.bmicalc.domain.Range
 
-class BmiFilter(
+open class BmiFilter(
     val time: TimeRange? = null,
     val bmi: Range? = null,
     val weight: Range? = null,
