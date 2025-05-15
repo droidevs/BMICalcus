@@ -8,6 +8,7 @@ import io.droidevs.bmicalc.data.mapers.toDomain
 import io.droidevs.bmicalc.data.model.ActiveBmiGoal
 import io.droidevs.bmicalc.dispatchers.CoroutineDispatcherProvider
 import io.droidevs.bmicalc.domain.BmiGoal
+import io.droidevs.bmicalc.domain.GoalFilter
 import io.droidevs.bmicalc.domain.GoalFlag
 import io.droidevs.bmicalc.domain.repository.BmiGoalRecordRepository
 import io.droidevs.bmicalc.domain.result.mapResult
@@ -54,15 +55,14 @@ class BmiGoalRecordRepositoryImpl(
         }
 
     override fun searchGoals(
-        flag: GoalFlag?,
-        query: String?,
+        filter: GoalFilter,
         page: Int,
         pageSize: Int
     ): Flow<Result<List<BmiGoal>, DatabaseError>> {
         return flowRunCatchingDatabase {
             dao.getGoals(
-                status = flag?.name,
-                motivationQuery = query,
+                status = filter.flag?.name,
+                motivationQuery = filter.query,
                 offset = page * pageSize,
                 limit = pageSize
             )

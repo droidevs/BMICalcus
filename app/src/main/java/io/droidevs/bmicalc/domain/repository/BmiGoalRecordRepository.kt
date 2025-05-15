@@ -2,6 +2,7 @@ package io.droidevs.bmicalc.domain.repository
 
 import io.droidevs.bmicalc.data.model.ActiveBmiGoal
 import io.droidevs.bmicalc.domain.BmiGoal
+import io.droidevs.bmicalc.domain.GoalFilter
 import io.droidevs.bmicalc.domain.GoalFlag
 import kotlinx.coroutines.flow.Flow
 import io.droidevs.wallpaper.domain.result.Result
@@ -30,8 +31,7 @@ interface BmiGoalRecordRepository {
      * @return Flow emitting [Result.Success] with list of goals or [Result.Failure] on error
      */
     fun searchGoals(
-        status: GoalFlag? = null,
-        query: String? = null,
+        goalFilter: GoalFilter,
         page: Int = 0,
         pageSize: Int = 20
     ): Flow<Result<List<BmiGoal>, DatabaseError>>
