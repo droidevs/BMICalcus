@@ -1,5 +1,6 @@
 package io.droidevs.bmicalc.domain.result
 
+import io.droidevs.bmicalc.data.db.relations.BmiRecordWithFavorite
 import io.droidevs.wallpaper.domain.result.Result
 import io.droidevs.wallpaper.domain.result.RootError
 import kotlinx.coroutines.flow.Flow
@@ -113,7 +114,12 @@ fun <T, E : RootError> Flow<Result<T, E>>.catchResult(
 
 fun <T, R, E : RootError> Flow<Result<T, E>>.mapResult(
     transform: (T) -> R
-): Flow<Result<R, E>> = map { result -> result.map(transform) }
+): Flow<Result<R, E>> = map { result ->
+    when (result) {
+        is Result.Success -> Result.Success(transform(result.data))
+        is Result.Failure -> Result.Failure(result.error)
+    }
+}
 
 fun <T, E : RootError, R> Flow<Result<T, E>>.flatMapResult(
     transform: (T) -> Flow<Result<R, E>>

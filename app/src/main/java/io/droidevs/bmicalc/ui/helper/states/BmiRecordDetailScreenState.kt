@@ -6,6 +6,6 @@ import io.droidevs.bmicalc.ui.model.BmiRecordUi
 
 @Stable
 data class BmiRecordDetailScreenState(
-    val unitSystem: UnitSystem,
-    val record: BmiRecordUi,
+    val unitSystem: UnitSystem = UnitSystem.METRIC,
+    val record: BmiRecordUi = BmiRecordUi(),
 )

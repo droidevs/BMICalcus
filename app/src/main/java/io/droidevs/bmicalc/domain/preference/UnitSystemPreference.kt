@@ -1,4 +1,4 @@
-package io.droidevs.bmicalc.data.preference
+package io.droidevs.bmicalc.domain.preference
 
 
 import io.droidevs.bmicalc.data.model.UnitSystem

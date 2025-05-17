@@ -1,8 +1,7 @@
 package io.droidevs.bmicalc.ui.model
 
 
-import io.droidevs.bmicalc.domain.FavoredBmiRecord
-
+import io.droidevs.bmicalc.domain.model.FavoredBmiRecord
 
 
 data class FavoredBmiUi(

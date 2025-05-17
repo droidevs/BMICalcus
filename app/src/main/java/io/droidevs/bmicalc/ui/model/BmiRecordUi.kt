@@ -1,14 +1,14 @@
 package io.droidevs.bmicalc.ui.model
 
-import io.droidevs.bmicalc.domain.BmiRecord
+import io.droidevs.bmicalc.domain.model.BmiRecord
 import kotlinx.datetime.Instant
 
 data class BmiRecordUi(
-    val id : Long,
-    val height: Float,
-    val weight: Float,
-    val bmi: Float,
-    val date: Instant,
+    val id : Long = -1,
+    val height: Float = -1f,
+    val weight: Float = -1f,
+    val bmi: Float = -1f,
+    val date: Long = -1,
     var isSelected : Boolean = false,
     val isFavorite : Boolean = false,
 )

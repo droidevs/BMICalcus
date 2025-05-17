@@ -29,7 +29,7 @@ class FavoriteBmiRepositoryImpl(
     private val favoriteDao: FavoriteBmiRecordDao,
 ) : FavoriteBmiRepository {
 
-    override suspend fun addToFavorites(bmiRecordId: Long, note: String?, priority: Int): Result<Long, DatabaseError> {
+    override suspend fun addToFavorites(bmiRecordId: Long, note: String): Result<Long, DatabaseError> {
         val favorite = FavoriteBmiRecordEntity(
             bmiRecordId = bmiRecordId,
             customNote = note,

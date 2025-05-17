@@ -8,7 +8,7 @@ open class BmiRecordDetailsAction {
 
     object EditAction : BmiRecordDetailsAction()
 
-    object FavoriteAction : BmiRecordDetailsAction()
+    data class FavoriteAction(val note : String = "") : BmiRecordDetailsAction()
 
     object UnfavoriteAction : BmiRecordDetailsAction()
 

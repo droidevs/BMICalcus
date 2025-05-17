@@ -4,7 +4,7 @@ import io.droidevs.bmicalc.domain.model.BmiRecord
 
 open class BmiRecordDetailsEvent {
 
-    data class NavigateToEditPage(val bmiRecord : BmiRecord) : BmiRecordDetailsEvent()
+    data class NavigateToEditPage(val recordId : Long) : BmiRecordDetailsEvent()
 
     object  FavoredSuccessfully : BmiRecordDetailsEvent()
 
@@ -17,4 +17,6 @@ open class BmiRecordDetailsEvent {
     object DeletedSuccessfully : BmiRecordDetailsEvent()
 
     object FailedToDelete : BmiRecordDetailsEvent()
+
+    object SomethingWentWrong : BmiRecordDetailsEvent()
 }

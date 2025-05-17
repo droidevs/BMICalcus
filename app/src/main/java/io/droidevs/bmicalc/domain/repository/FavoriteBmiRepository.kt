@@ -10,7 +10,7 @@ import io.droidevs.wallpaper.domain.result.errors.DatabaseError
 import kotlinx.coroutines.flow.Flow
 import io.droidevs.wallpaper.domain.result.Result
 interface FavoriteBmiRepository {
-    suspend fun addToFavorites(bmiRecordId: Long, note: String?, priority: Int): Result<Long, DatabaseError>
+    suspend fun addToFavorites(bmiRecordId: Long, note: String = ""): Result<Long, DatabaseError>
     suspend fun removeFromFavorites(id: Long): Result<Int, DatabaseError>
     suspend fun removeFromFavoritesByBmiRecordId(bmiRecordId: Long): Result<Int, DatabaseError>
     suspend fun updateCustomNote(favoredRecordId: Long, note: String): Result<Int, DatabaseError>
