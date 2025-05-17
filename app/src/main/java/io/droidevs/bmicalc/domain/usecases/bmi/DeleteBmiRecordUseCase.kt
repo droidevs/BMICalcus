@@ -1,10 +1,10 @@
-package io.droidevs.bmicalc.domain.usecases
+package io.droidevs.bmicalc.domain.usecases.bmi
 
-import io.droidevs.bmicalc.data.repository.IBmiRepository
-import io.droidevs.bmicalc.domain.BmiRecord
+import io.droidevs.bmicalc.domain.repository.BmiRepository
+import io.droidevs.bmicalc.domain.model.BmiRecord
 
 class DeleteBmiRecordUseCase(
-    private val bmiRepository: IBmiRepository,
+    private val bmiRepository: BmiRepository,
 ) {
 
     suspend operator fun invoke(record: BmiRecord){

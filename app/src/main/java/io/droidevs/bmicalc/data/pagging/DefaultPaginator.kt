@@ -1,11 +1,20 @@
 package io.droidevs.bmicalc.data.pagging
 
+import io.droidevs.bmicalc.domain.result.onFailure
+import io.droidevs.bmicalc.domain.result.onFailureSuspend
+import io.droidevs.bmicalc.domain.result.onSuccess
+import io.droidevs.bmicalc.domain.result.onSuccessSuspend
+import io.droidevs.bmicalc.domain.result.onSuccessSuspendWithResult
+import io.droidevs.wallpaper.domain.result.Result
+import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.wallpaper.domain.result.errors.Error
+
 abstract class DefaultPaginator<Key,Item>(
     val initialKey : Key,
     private inline val onLoadUpdated : (Boolean) -> Unit,
-    private inline val onRequest : suspend (nextKey : Key) -> Result<List<Item>>,
+    private inline val onRequest : suspend (nextKey : Key) -> Result<List<Item>, DatabaseError>,
     private inline val getNextKey : suspend (items : List<Item>) -> Key,
-    private inline val onError : suspend (error : Throwable) -> Unit,
+    private inline val onError : suspend (error : Error) -> Unit,
     private inline val onSuccess : (items : List<Item> , newKey : Key) -> Unit
 ) : Paginator<Key,Item> {
 
@@ -25,17 +34,17 @@ abstract class DefaultPaginator<Key,Item>(
         val result = onRequest(currentKey)
         isMakingRequest = false
 
-        val items = result.getOrElse {
+        result.onSuccessSuspend { items ->
+            currentKey = getNextKey(items)
+
+            onSuccess(items,currentKey)
+
+            onLoadUpdated(false)
+        }.onFailureSuspend {
             onError(it)
             onLoadUpdated(false)
-            return
+            return@onFailureSuspend
         }
-
-        currentKey = getNextKey(items)
-
-        onSuccess(items,currentKey)
-
-        onLoadUpdated(false)
     }
 
     override fun reset() {

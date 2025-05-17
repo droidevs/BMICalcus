@@ -22,8 +22,8 @@ interface FavoriteBmiRepository {
     suspend fun getFavoriteCount(): Int
 
 
-    fun getFavorites(page: Int, pageSize: Int): Flow<List<FavoriteWithBmiData>>
-    fun searchFavoritesByNote(query: String, page: Int, pageSize: Int) : Flow<List<FavoriteWithBmiData>>
+    fun getFavorites(page: Int, pageSize: Int): Flow<Result<List<FavoredBmiRecord>, DatabaseError>>
+    fun searchFavoritesByNote(query: String, page: Int, pageSize: Int) : Flow<Result<List<FavoredBmiRecord>, DatabaseError>>
 
     fun getFavoredRecords(
         filter: FavoredFilter,

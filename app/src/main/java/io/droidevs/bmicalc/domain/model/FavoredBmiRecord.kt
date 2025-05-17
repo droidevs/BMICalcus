@@ -8,6 +8,6 @@ data class FavoredBmiRecord(
     val bmi: Float,
     val height: Float,
     val weight: Float,
-    val date: Instant,
-    val note: String,
+    val date: Long,
+    val note: String? = null,
 )

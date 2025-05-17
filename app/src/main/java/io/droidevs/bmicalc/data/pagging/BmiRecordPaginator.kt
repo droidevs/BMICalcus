@@ -1,12 +1,15 @@
 package io.droidevs.bmicalc.data.pagging
 
-import io.droidevs.bmicalc.domain.BmiRecord
+import io.droidevs.bmicalc.domain.model.BmiRecord
+import io.droidevs.wallpaper.domain.result.Result
+import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.wallpaper.domain.result.errors.Error
 
 class BmiRecordPaginator(initialKey: Int,
                          onLoadUpdated: (Boolean) -> Unit,
-                         onRequest: suspend (Int) -> Result<List<BmiRecord>>,
+                         onRequest: suspend (Int) -> Result<List<BmiRecord>, DatabaseError>,
                          getNextKey: suspend (List<BmiRecord>) -> Int,
-                         onError: suspend (Throwable) -> Unit,
+                         onError: suspend (Error) -> Unit,
                          onSuccess: (List<BmiRecord>, Int) -> Unit
 ) : DefaultPaginator<Int, BmiRecord>(initialKey, onLoadUpdated, onRequest, getNextKey, onError,
     onSuccess

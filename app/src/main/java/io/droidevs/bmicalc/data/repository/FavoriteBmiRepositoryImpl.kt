@@ -22,6 +22,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import io.droidevs.wallpaper.domain.result.Result
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class FavoriteBmiRepositoryImpl(
@@ -86,18 +87,32 @@ class FavoriteBmiRepositoryImpl(
         return favoriteDao.getFavoriteCount()
     }
 
-    override fun getFavorites(page: Int, pageSize: Int): Flow<List<FavoriteWithBmiData>> {
-        return favoriteDao.getFavorites(offset = pageSize * (page - 1), limit = pageSize)
-            .flowOn(Dispatchers.IO)
+    override fun getFavorites(page: Int, pageSize: Int): Flow<Result<List<FavoredBmiRecord>, DatabaseError>> {
+        return flowRunCatchingDatabase {
+            favoriteDao.getFavorites(offset = pageSize * (page - 1), limit = pageSize)
+                .map { records ->
+                    records.map {
+                        it.toDomain()
+                    }
+                }
+                .flowOn(Dispatchers.IO)
+        }
     }
 
     override fun searchFavoritesByNote(
         query: String,
         page: Int,
         pageSize: Int
-    ): Flow<List<FavoriteWithBmiData>> {
-        return favoriteDao.searchFavoritesByNote(query = query, offset = pageSize * (page - 1), limit = pageSize)
-            .flowOn(Dispatchers.IO)
+    ): Flow<Result<List<FavoredBmiRecord>, DatabaseError>> {
+        return flowRunCatchingDatabase {
+            favoriteDao.searchFavoritesByNote(query = query, offset = pageSize * (page - 1), limit = pageSize)
+                .map { records ->
+                    records.map {
+                        it.toDomain()
+                    }
+                }
+                .flowOn(Dispatchers.IO)
+        }
     }
 
     override fun getFavoredRecords(

@@ -12,7 +12,7 @@ fun BmiRecord.toEntity(): BmiRecordEntity {
         bmi = bmi,
         height = height,
         weight = weight,
-        date = date.toEpochMilliseconds(),
+        date = date,
     )
 }
 
@@ -22,7 +22,7 @@ fun BmiRecordEntity.toDomain(): BmiRecord {
         bmi = bmi,
         height = height,
         weight = weight,
-        date = Instant.fromEpochMilliseconds(date)
+        date = date
     )
 }
 
@@ -32,7 +32,7 @@ fun BmiRecordWithFavorite.toDomain(): BmiRecord {
         bmi = bmiRecord.bmi,
         height = bmiRecord.height,
         weight = bmiRecord.weight,
-        date = Instant.fromEpochMilliseconds(bmiRecord.date),
+        date = bmiRecord.date,
         isFavorite = isFavorite
     )
 }
@@ -44,7 +44,7 @@ fun FavoriteWithBmiData.toDomain(): FavoredBmiRecord {
         bmi = bmiData.bmi,
         height = bmiData.height,
         weight = bmiData.weight,
-        date = Instant.fromEpochMilliseconds(bmiData.date),
+        date = bmiData.date,
         note = favorite.customNote?: "",
     )
 }

@@ -1,4 +1,4 @@
-package io.droidevs.bmicalc.model
+package io.droidevs.bmicalc.domain.model
 
 enum class OrderType(
     val text: String,

@@ -1,4 +1,4 @@
-package io.droidevs.bmicalc.model
+package io.droidevs.bmicalc.domain.model
 
 
 import kotlinx.datetime.Instant
