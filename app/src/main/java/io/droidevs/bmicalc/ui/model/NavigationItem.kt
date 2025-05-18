@@ -1,6 +1,7 @@
 package io.droidevs.bmicalc.ui.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
+import io.droidevs.bmicalc.ui.nav.roots.Destination
 
 
 data class NavigationItem(
@@ -8,5 +9,5 @@ data class NavigationItem(
     val title : String,
     val selectedIcon : ImageVector,
     val unselectedIcon : ImageVector,
-    var isSelected : Boolean = false
+    var root : Destination
 )
