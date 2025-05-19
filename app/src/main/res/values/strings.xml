@@ -4,4 +4,18 @@
     <string name="delete">Delete</string>
     <string name="bmi_history">BMI History</string>
     <string name="back">Back</string>
+
+    <string name="record_failed_to_load">Something went wrong while loading the record.</string>
+
+    <string name="content_desc_favorite_star">Favorited</string>
+    <string name="content_desc_retry">Retry action</string>
+
+    <string name="favored_success">BMI record favored ★</string>
+    <string name="unfavored_success">BMI record unfavored</string>
+    <string name="delete_success">BMI record deleted</string>
+
+    <!-- Error Messages -->
+    <string name="favorite_error">Failed to favorite record\u2026</string>
+    <string name="unfavorite_error">Failed to remove favorite\u2026</string>
+    <string name="delete_error">Failed to delete record\u2026</string>
 </resources>
