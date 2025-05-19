@@ -1,6 +1,9 @@
 package io.droidevs.bmicalc.ui.snackbar
 
+
+import androidx.annotation.StringRes
+
 class SnackBarEvent (
-    val message: String,
+    @StringRes val message: Int,
     val action : SnackBarAction? = null
 )

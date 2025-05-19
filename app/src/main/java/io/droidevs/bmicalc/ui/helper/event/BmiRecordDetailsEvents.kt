@@ -18,5 +18,4 @@ open class BmiRecordDetailsEvent {
 
     object FailedToDelete : BmiRecordDetailsEvent()
 
-    object SomethingWentWrong : BmiRecordDetailsEvent()
 }

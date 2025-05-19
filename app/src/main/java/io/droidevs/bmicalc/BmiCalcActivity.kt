@@ -11,19 +11,34 @@ import android.view.WindowMetrics
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
+import io.droidevs.bmicalc.ui.snackbar.SnackBarController
 import io.droidevs.bmicalc.ui.theme.BmiCalcTheme
+import io.droidevs.bmicalc.ui.utils.ObserveAsEvents
+import io.droidevs.bmicalc.ui.utils.ObserveAsEventsCompose
 
 import io.droidevs.bmicalc.ui.window.LocalWindow
 import io.droidevs.bmicalc.ui.window.WindowInfo
@@ -61,7 +76,39 @@ class BmiCalcActivity : ComponentActivity() {
         setContent {
             CompositionLocalProvider(LocalWindow provides windowInfoFlow.value) {
                 BmiCalcTheme {
-                    Content()
+                    val snackbarHostState = remember {
+                        SnackbarHostState()
+                    }
+                    val scope = rememberCoroutineScope()
+                    ObserveAsEventsCompose(
+                        flow = SnackBarController.events,
+                        snackbarHostState
+                    ) { event ->
+                        val message = stringResource(event.message)
+                        LaunchedEffect(
+                            true
+                        ) {
+                            snackbarHostState.currentSnackbarData?.dismiss()
+                            val result = snackbarHostState.showSnackbar(
+                                message = message,
+                                actionLabel = event.action?.name,
+                                duration = SnackbarDuration.Long
+                            )
+                            if (result == SnackbarResult.ActionPerformed){
+                                event.action?.onAction?.invoke()
+                            }
+                        }
+                    }
+                    Scaffold(
+                        modifier = Modifier.fillMaxSize(),
+                        snackbarHost = {
+                            SnackbarHost(
+                                hostState = snackbarHostState
+                            )
+                        }
+                    ) { paddingValues ->
+                        Content(paddingValues)
+                    }
                 }
             }
         }
@@ -82,6 +129,6 @@ class BmiCalcActivity : ComponentActivity() {
 }
 
 @Composable
-fun Content(){
+fun Content(paddingValues: PaddingValues){
     TODO()
 }
