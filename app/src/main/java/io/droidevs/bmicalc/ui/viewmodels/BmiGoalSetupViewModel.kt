@@ -4,12 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.droidevs.bmicalc.domain.GoalStatus
 import io.droidevs.bmicalc.domain.result.onSuccess
-import io.droidevs.bmicalc.domain.usecases.AbandonGoalUseCase
-import io.droidevs.bmicalc.domain.usecases.CompleteGoalUseCase
+import io.droidevs.bmicalc.domain.usecases.goal.AbandonGoalUseCase
+import io.droidevs.bmicalc.domain.usecases.goal.CompleteGoalUseCase
 import io.droidevs.bmicalc.domain.usecases.EvaluateBmiGoalProgressUseCase
-import io.droidevs.bmicalc.domain.usecases.GetActiveBmiGoalUseCase
+import io.droidevs.bmicalc.domain.usecases.goal.GetActiveBmiGoalUseCase
 import io.droidevs.bmicalc.domain.usecases.GetBmiScoreUseCase
-import io.droidevs.bmicalc.domain.usecases.SetActiveBmiGoalUseCase
+import io.droidevs.bmicalc.domain.usecases.goal.SetActiveBmiGoalUseCase
+import io.droidevs.bmicalc.ui.helper.ActionHandler
 import io.droidevs.bmicalc.ui.helper.actions.BmiGoalAction
 import io.droidevs.bmicalc.ui.helper.states.BmiGoalSetUpScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +26,7 @@ class BmiGoalSetupViewModel(
     val evaluateBmiGoal: EvaluateBmiGoalProgressUseCase,
     val complete: CompleteGoalUseCase,
     val abandon : AbandonGoalUseCase
-) : ViewModel() {
+) : ViewModel() , ActionHandler<BmiGoalAction> {
 
     var _state  = MutableStateFlow(BmiGoalSetUpScreenState())
 
@@ -59,7 +60,7 @@ class BmiGoalSetupViewModel(
         }
     }
 
-    fun onAction(action: BmiGoalAction){
+    override fun onAction(action: BmiGoalAction){
         when(action){
             BmiGoalAction.CompleteGoal -> {
                 _state.value.activeBmiGoal?.let {

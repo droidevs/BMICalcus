@@ -8,6 +8,7 @@ import io.droidevs.bmicalc.domain.usecases.bmi.GetBmiRecordByIdUseCase
 import io.droidevs.bmicalc.domain.usecases.bmi.UpdateBmiRecordUseCase
 import io.droidevs.bmicalc.domain.usecases.bmi.ValidateBmiInputUseCase
 import io.droidevs.bmicalc.domain.usecases.unitsystem.GetUnitSystemUseCase
+import io.droidevs.bmicalc.ui.helper.ActionHandler
 import io.droidevs.bmicalc.ui.helper.actions.BmiRecordEditAction
 import io.droidevs.bmicalc.ui.helper.event.BmiRecordDetailsEvent
 import io.droidevs.bmicalc.ui.helper.event.BmiRecordEditScreenEvent
@@ -30,7 +31,7 @@ class BmiRecordEditViewModel(
     val getUnitSystem : GetUnitSystemUseCase,
     val applicationScope : CoroutineScope,
     val validationUseCase : ValidateBmiInputUseCase
-) : ViewModel() {
+) : ViewModel() , ActionHandler<BmiRecordEditAction>{
 
     var recordId: Long = -1
 
@@ -66,7 +67,7 @@ class BmiRecordEditViewModel(
     }
 
 
-    fun onAction(action: BmiRecordEditAction){
+    override fun onAction(action: BmiRecordEditAction){
         applicationScope.launch {
             when(action){
                 is BmiRecordEditAction.ReloadData -> {

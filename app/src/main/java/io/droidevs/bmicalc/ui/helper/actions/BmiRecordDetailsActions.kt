@@ -1,6 +1,8 @@
 package io.droidevs.bmicalc.ui.helper.actions
 
-open class BmiRecordDetailsAction {
+import io.droidevs.bmicalc.ui.helper.UiAction
+
+open class BmiRecordDetailsAction : UiAction {
 
     data object RefreshRecord : BmiRecordDetailsAction()
 

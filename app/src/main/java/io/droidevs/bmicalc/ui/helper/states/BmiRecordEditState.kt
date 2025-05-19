@@ -5,6 +5,7 @@ import androidx.room.RoomOpenHelper
 import io.droidevs.bmicalc.data.model.UnitSystem
 import io.droidevs.bmicalc.domain.model.BMICategory
 import io.droidevs.bmicalc.domain.model.BmiInputValidationResult
+import io.droidevs.bmicalc.ui.helper.UiState
 import io.droidevs.bmicalc.ui.model.BmiRecordUi
 import io.droidevs.wallpaper.domain.result.errors.Error
 
@@ -16,4 +17,4 @@ data class BmiRecordEditState(
     val edited: BmiRecordUi = BmiRecordUi(),
     val validationResult : BmiInputValidationResult = BmiInputValidationResult(),
     val error: Error? = null
-)
+) : UiState

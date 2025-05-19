@@ -3,9 +3,8 @@ package io.droidevs.bmicalc.ui.helper.states
 import androidx.compose.runtime.Stable
 import io.droidevs.bmicalc.data.model.ActiveBmiGoal
 import io.droidevs.bmicalc.data.model.BmiScore
-import io.droidevs.bmicalc.domain.BmiRecord
 import io.droidevs.bmicalc.domain.GoalStatus
-import io.droidevs.bmicalc.domain.model.BMICategory
+import io.droidevs.bmicalc.ui.helper.UiState
 import io.droidevs.bmicalc.ui.model.GoalInput
 
 
@@ -15,4 +14,4 @@ data class BmiGoalSetUpScreenState(
     val bmiScore: BmiScore?= null,
     val activeBmiGoal : ActiveBmiGoal? = null,
     val goalStatus: GoalStatus = GoalStatus.NOT_SET,
-)
+) : UiState

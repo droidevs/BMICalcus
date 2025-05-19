@@ -1,9 +1,10 @@
 package io.droidevs.bmicalc.ui.helper.actions
 
 import io.droidevs.bmicalc.domain.model.BmiRecord
+import io.droidevs.bmicalc.ui.helper.UiAction
 import io.droidevs.bmicalc.ui.model.BmiRecordUi
 
-sealed interface BmiRecordEditAction {
+sealed interface BmiRecordEditAction : UiAction {
 
 
     data object ReloadData : BmiRecordEditAction

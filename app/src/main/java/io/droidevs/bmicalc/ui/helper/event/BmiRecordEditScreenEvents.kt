@@ -1,6 +1,8 @@
 package io.droidevs.bmicalc.ui.helper.event
 
-sealed interface BmiRecordEditScreenEvent {
+import io.droidevs.bmicalc.ui.helper.UiEvent
+
+sealed interface BmiRecordEditScreenEvent : UiEvent {
 
     object SavedSuccessfully : BmiRecordEditScreenEvent
 

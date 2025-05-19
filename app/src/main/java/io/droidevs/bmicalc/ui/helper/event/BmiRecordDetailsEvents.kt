@@ -1,8 +1,9 @@
 package io.droidevs.bmicalc.ui.helper.event
 
 import io.droidevs.bmicalc.domain.model.BmiRecord
+import io.droidevs.bmicalc.ui.helper.UiEvent
 
-open class BmiRecordDetailsEvent {
+open class BmiRecordDetailsEvent : UiEvent {
 
     data class NavigateToEditPage(val recordId : Long) : BmiRecordDetailsEvent()
 

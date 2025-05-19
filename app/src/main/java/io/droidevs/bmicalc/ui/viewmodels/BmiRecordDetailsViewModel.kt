@@ -10,6 +10,7 @@ import io.droidevs.bmicalc.domain.usecases.bmi.GetBmiRecordByIdUseCase
 import io.droidevs.bmicalc.domain.usecases.bmi.favorite.AddToFavoritesUseCase
 import io.droidevs.bmicalc.domain.usecases.bmi.favorite.DeleteFavoredBmiRecordUseCase
 import io.droidevs.bmicalc.domain.usecases.unitsystem.GetUnitSystemUseCase
+import io.droidevs.bmicalc.ui.helper.ActionHandler
 import io.droidevs.bmicalc.ui.helper.actions.BmiRecordDetailsAction
 import io.droidevs.bmicalc.ui.helper.event.BmiRecordDetailsEvent
 import io.droidevs.bmicalc.ui.helper.states.BmiRecordDetailScreenState
@@ -32,7 +33,7 @@ class BmiRecordDetailsViewModel(
     val deleteBmiRecord: DeleteBmiRecordUseCase,
     val addToFavorites: AddToFavoritesUseCase,
     val deleteFromFavorite: DeleteFavoredBmiRecordUseCase
-) : ViewModel() {
+) : ViewModel(), ActionHandler<BmiRecordDetailsAction> {
 
     var recordId : Long = -1
 
@@ -68,7 +69,7 @@ class BmiRecordDetailsViewModel(
         }
 
     }
-    fun onAction(action : BmiRecordDetailsAction){
+    override fun onAction(action : BmiRecordDetailsAction){
         viewModelScope.launch {
             when(action){
                 is BmiRecordDetailsAction.RefreshRecord -> {
