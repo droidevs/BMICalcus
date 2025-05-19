@@ -18,4 +18,15 @@
     <string name="favorite_error">Failed to favorite record\u2026</string>
     <string name="unfavorite_error">Failed to remove favorite\u2026</string>
     <string name="delete_error">Failed to delete record\u2026</string>
+
+    <!-- Validation errors -->
+    <string name="validation_error_height_range">Height must be between %1$.1f and %2$.1f cm</string>
+    <string name="validation_error_weight_range">Weight must be between %1$.1f and %2$.1f kg</string>
+
+    <string name="bmi_saved_successfully">BMI record saved successfully.</string>
+    <string name="bmi_data_restored_successfully">BMI data restored successfully.</string>
+    <string name="bmi_data_restore_failed">Failed to restore BMI data.</string>
+    <string name="bmi_save_failed">Failed to save BMI record.</string>
+    <string name="bmi_navigate_back">Going back...</string>
+
 </resources>
