@@ -1,4 +1,4 @@
-package io.droidevs.bmicalc.data.pagging
+package io.droidevs.bmicalc.domain.pager
 
 interface Paginator<Key,Item> {
 

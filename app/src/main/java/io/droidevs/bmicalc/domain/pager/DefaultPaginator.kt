@@ -1,10 +1,7 @@
-package io.droidevs.bmicalc.data.pagging
+package io.droidevs.bmicalc.domain.pager
 
-import io.droidevs.bmicalc.domain.result.onFailure
 import io.droidevs.bmicalc.domain.result.onFailureSuspend
-import io.droidevs.bmicalc.domain.result.onSuccess
 import io.droidevs.bmicalc.domain.result.onSuccessSuspend
-import io.droidevs.bmicalc.domain.result.onSuccessSuspendWithResult
 import io.droidevs.wallpaper.domain.result.Result
 import io.droidevs.wallpaper.domain.result.errors.DatabaseError
 import io.droidevs.wallpaper.domain.result.errors.Error
@@ -16,7 +13,7 @@ abstract class DefaultPaginator<Key,Item>(
     private inline val getNextKey : suspend (items : List<Item>) -> Key,
     private inline val onError : suspend (error : Error) -> Unit,
     private inline val onSuccess : (items : List<Item> , newKey : Key) -> Unit
-) : Paginator<Key,Item> {
+) : Paginator<Key, Item> {
 
 
     private var currentKey = initialKey
