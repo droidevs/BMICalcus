@@ -79,7 +79,7 @@ fun GoalSetupScreen(
     Scaffold(
         topBar = {
             BackAppBar(
-                title = "Set BMI Goal",
+                title = "BMI Goal",
                 onBackPressed = onNavigateBack
             )
         }
@@ -145,7 +145,7 @@ private fun CompactGoalLayout(
 private fun ExpandedGoalLayout(
     uiState: BmiGoalSetUpScreenState,
     onAction: (BmiGoalAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -197,7 +197,9 @@ private fun ExpandedGoalLayout(
                 )
             } ?: run {
                 // Placeholder/motivational content when no goal is set
-                GoalMotivationSection(modifier = Modifier.fillMaxWidth())
+                GoalMotivationSection(
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }
@@ -299,7 +301,7 @@ fun GoalSettingSection(
             // Target BMI input
             OutlinedTextField(
                 value = state.goalInput?.targetBmi.toString(),
-                onValueChange = { if (isEditable) onAction(BmiGoalAction.SetTargetBmi(it)) },
+                onValueChange = { if (isEditable) onAction(BmiGoalAction.SetTargetBmi(it.toFloat())) },
                 label = { Text("Target BMI") },
                 singleLine = true,
                 enabled = isEditable,

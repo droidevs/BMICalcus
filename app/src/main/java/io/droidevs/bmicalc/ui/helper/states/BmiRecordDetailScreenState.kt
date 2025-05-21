@@ -4,7 +4,7 @@ import androidx.compose.runtime.Stable
 import io.droidevs.bmicalc.data.model.UnitSystem
 import io.droidevs.bmicalc.ui.helper.UiState
 import io.droidevs.bmicalc.ui.model.BmiRecordUi
-import io.droidevs.wallpaper.domain.result.errors.Error
+import io.droidevs.bmicalc.domain.result.errors.Error
 
 @Stable
 data class BmiRecordDetailScreenState(

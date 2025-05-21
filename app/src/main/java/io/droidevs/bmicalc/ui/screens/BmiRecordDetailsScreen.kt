@@ -176,13 +176,13 @@ fun BmiRecordDetailsScreen(
                             val weightUnit = WeightUnit.getUnit(state.unitSystem)
 
                             MeasurementCard(
-                                value = HeightUnit.CM.convert(state.record.height, state.unitSystem),
+                                value = UnitSystem.DEFAULT.convertHeight(state.record.height, state.unitSystem),
                                 unit = heightUnit.text,
                                 icon = ImageVector.vectorResource(R.drawable.ic_height),
                                 color = colorTransition
                             )
                             MeasurementCard(
-                                value = WeightUnit.KG.convert(state.record.weight, state.unitSystem),
+                                value = UnitSystem.DEFAULT.convertWeight(state.record.weight, state.unitSystem),
                                 unit = weightUnit.text,
                                 icon = ImageVector.vectorResource(R.drawable.ic_weight),
                                 color = colorTransition
