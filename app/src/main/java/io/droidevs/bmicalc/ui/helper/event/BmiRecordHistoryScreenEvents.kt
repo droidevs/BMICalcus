@@ -8,5 +8,4 @@ sealed interface BmiRecordHistoryScreenEvent {
 
     data object RecordDeleteFailed : BmiRecordHistoryScreenEvent
 
-
 }

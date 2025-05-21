@@ -24,12 +24,12 @@ import io.droidevs.bmicalc.ui.window.LocalWindow
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CompactLayoutWithScaffold(
-    mainContent: @Composable () -> Unit,
     allowScroll: Boolean = true,
     applyPadding: Boolean = true,
     topAppBar: @Composable () -> Unit,
     floatingActionButton: @Composable () -> Unit,
-    isStandalone: Boolean = true // Added parameter to check standalone mode
+    isStandalone: Boolean = true, // Added parameter to check standalone mode
+    mainContent: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
     var statusBarHeight by remember { mutableIntStateOf(0) }

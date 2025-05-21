@@ -29,4 +29,9 @@
     <string name="bmi_save_failed">Failed to save BMI record.</string>
     <string name="bmi_navigate_back">Going back...</string>
 
+    <string name="record_deleted_successfully">Record deleted successfully</string>
+    <string name="record_delete_failed">Failed to delete the record</string>
+
+    <string name="history_failed_to_load">Failed to load history. Please try again.</string>
+
 </resources>

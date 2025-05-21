@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SomethingWrongLayout(
     errorMessage: String,
-    onCancel: () -> Unit,
-    onRetry: () -> Unit
+    onCancel: (() -> Unit)? = null,
+    onRetry: (() -> Unit)? = null
 ) {
     Box(
         modifier = Modifier
@@ -78,29 +78,34 @@ fun SomethingWrongLayout(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                OutlinedButton(
-                    onClick = onCancel,
-                    modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = MaterialTheme.colorScheme.onSurface
-                    )
+            if (onCancel != null || onRetry != null) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Text("Cancel")
-                }
-
-                Button(
-                    onClick = onRetry,
-                    modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.errorContainer,
-                        contentColor = MaterialTheme.colorScheme.onErrorContainer
-                    )
-                ) {
-                    Text("Try Again")
+                    onCancel?.let {
+                        OutlinedButton(
+                            onClick = onCancel,
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            )
+                        ) {
+                            Text("Cancel")
+                        }
+                    }
+                    onRetry?.let {
+                        Button(
+                            onClick = onRetry,
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.errorContainer,
+                                contentColor = MaterialTheme.colorScheme.onErrorContainer
+                            )
+                        ) {
+                            Text("Try Again")
+                        }
+                    }
                 }
             }
         }

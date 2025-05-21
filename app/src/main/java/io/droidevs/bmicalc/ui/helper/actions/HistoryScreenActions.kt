@@ -2,10 +2,13 @@ package io.droidevs.bmicalc.ui.helper.actions
 
 import io.droidevs.bmicalc.domain.model.BmiFilter
 import io.droidevs.bmicalc.ui.helper.UiAction
+import io.droidevs.bmicalc.ui.helper.event.BmiRecordHistoryScreenEvent
 import io.droidevs.bmicalc.ui.model.BmiRecordUi
 
 sealed class HistoryScreenAction : UiAction {
 
+
+    object OnFavoriteClicked : HistoryScreenAction()
 
     data class ChangeFilter(val bmiFilter: BmiFilter) : HistoryScreenAction()
     object LoadMore : HistoryScreenAction()
@@ -23,4 +26,6 @@ sealed class HistoryScreenAction : UiAction {
     data class Delete(val record: BmiRecordUi) : HistoryScreenAction()
 
     data class Favorite(val record: BmiRecordUi) : HistoryScreenAction()
+
+    data class ClickRecord(val record: BmiRecordUi) : HistoryScreenAction()
 }

@@ -18,18 +18,22 @@ import io.droidevs.bmicalc.ui.window.LocalWindow
 fun DoubleLayoutWithScaffold(
     leftContent: @Composable () -> Unit,
     rightContent: @Composable () -> Unit,
-    topAppBar: @Composable () -> Unit,
+    topAppBar: (@Composable () -> Unit)? = null,
     isStandalone: Boolean = true // Determines whether to apply external padding
 ) {
     val layoutMode = LocalWindow.current.layoutMode
     val sidePadding = when (layoutMode) {
         LayoutMode.DOUBLE_BIG -> 52.dp
-        LayoutMode.FOLDED_SPLIT_BOOK -> 16.dp
+        LayoutMode.DOUBLE_MEDIUM -> 16.dp
         else -> 16.dp
     }
 
     Scaffold(
-        topBar = { topAppBar() }
+        topBar = {
+            if (topAppBar != null) {
+                topAppBar()
+            }
+        }
     ) { paddingValues ->
         Row(
             modifier = Modifier
