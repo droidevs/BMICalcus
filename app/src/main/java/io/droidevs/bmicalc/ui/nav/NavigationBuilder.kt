@@ -81,6 +81,9 @@ fun NavGraphBuilder.historyScreen(
                 is BmiRecordHistoryScreenEvent.NavigateBack -> {
                     navigator.navigateUp()
                 }
+                is BmiRecordHistoryScreenEvent.NavigateToFavorites -> {
+                    navigator.navigateTo(Screen.Favorites)
+                }
                 else -> {
                     event.toMessageResId()?.let { message ->
                         SnackBarController.sendEvent(
@@ -233,7 +236,7 @@ fun NavGraphBuilder.recordDetailScreen(
 fun BmiRecordHistoryScreenEvent.toMessageResId(): Int? = when (this) {
     BmiRecordHistoryScreenEvent.RecordDeletedSuccessfully -> R.string.record_deleted_successfully
     BmiRecordHistoryScreenEvent.RecordDeleteFailed -> R.string.record_delete_failed
-    BmiRecordHistoryScreenEvent.NavigateBack -> null
+    else -> null
 }
 
 

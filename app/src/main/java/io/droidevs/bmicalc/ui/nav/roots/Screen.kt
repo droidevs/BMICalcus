@@ -6,6 +6,7 @@ open class Destination
 
 sealed class Screen : Destination(){
 
+    object Favorites: Screen()
     object GoalSetup: Screen()
 
     data class RecordDetail(val recordId: Long) : Screen()

@@ -4,6 +4,8 @@ sealed interface BmiRecordHistoryScreenEvent {
 
     data object NavigateBack : BmiRecordHistoryScreenEvent
 
+    data object NavigateToFavorites : BmiRecordHistoryScreenEvent
+
     data object RecordDeletedSuccessfully : BmiRecordHistoryScreenEvent
 
     data object RecordDeleteFailed : BmiRecordHistoryScreenEvent
