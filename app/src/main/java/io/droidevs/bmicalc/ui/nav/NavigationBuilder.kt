@@ -13,9 +13,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import io.droidevs.bmicalc.R
+import io.droidevs.bmicalc.ui.helper.actions.BmiCalculatorScreenAction
 import io.droidevs.bmicalc.ui.helper.actions.BmiRecordDetailsAction
 import io.droidevs.bmicalc.ui.helper.actions.BmiRecordEditAction
 import io.droidevs.bmicalc.ui.helper.actions.HistoryScreenAction
+import io.droidevs.bmicalc.ui.helper.event.BmiCalculatorScreenEvent
 import io.droidevs.bmicalc.ui.helper.event.BmiRecordDetailsEvent
 import io.droidevs.bmicalc.ui.helper.event.BmiRecordEditScreenEvent
 import io.droidevs.bmicalc.ui.helper.event.BmiRecordHistoryScreenEvent
@@ -25,6 +27,7 @@ import io.droidevs.bmicalc.ui.nav.navigators.rememberHomeNavigator
 import io.droidevs.bmicalc.ui.nav.roots.Graph
 
 import io.droidevs.bmicalc.ui.nav.roots.Screen
+import io.droidevs.bmicalc.ui.screens.BMIScreen
 import io.droidevs.bmicalc.ui.screens.BmiEditRecordScreen
 import io.droidevs.bmicalc.ui.screens.BmiHistoryScreen
 import io.droidevs.bmicalc.ui.screens.BmiRecordDetailsScreen
@@ -32,35 +35,77 @@ import io.droidevs.bmicalc.ui.screens.GoalSetupScreen
 import io.droidevs.bmicalc.ui.snackbar.SnackBarController
 import io.droidevs.bmicalc.ui.snackbar.SnackBarEvent
 import io.droidevs.bmicalc.ui.utils.ObserveAsEvents
+import io.droidevs.bmicalc.ui.viewmodels.BMICalculatorViewModel
 import io.droidevs.bmicalc.ui.viewmodels.BmiGoalSetupViewModel
 import io.droidevs.bmicalc.ui.viewmodels.BmiRecordDetailsViewModel
 import io.droidevs.bmicalc.ui.viewmodels.BmiRecordEditViewModel
 import io.droidevs.bmicalc.ui.viewmodels.BmiRecordHistoryViewModel
 
 
-fun NavGraphBuilder.homeNavHost(){
+fun NavGraphBuilder.homeNavHost(
+    gotoSettings: () -> Unit,
+    toggleDrawer: () -> Unit
+){
     composable<Graph.Home> {
-        val navState = rememberHomeNavigator()
+        val navigator = rememberHomeNavigator()
         NavHost(
-            navController = navState.navController,
-            startDestination = navState.startDestination,
+            navController = navigator.navController,
+            startDestination = navigator.startDestination,
         ){
-            calculatorScreen()
-            goalSetupScreen()
+            calculatorScreen(
+                gotoSettings = gotoSettings,
+                toggleDrawer = toggleDrawer,
+                navigator = navigator
+            )
+            goalSetupScreen(
+                navigator = navigator
+            )
         }
     }
 }
 
 
-fun NavGraphBuilder.calculatorScreen(){
-    composable<Screen.Home> {
-        //BMIScreen()
-    }
-}
-
 fun NavGraphBuilder.chartScreen(){
     composable<Screen.Chart> {
         //BmiChartScreen()
+    }
+}
+
+fun NavGraphBuilder.calculatorScreen(
+    navigator: Navigator,
+    gotoSettings: () -> Unit,
+    toggleDrawer: () -> Unit
+){
+    composable<Screen.Calculator> {
+        val viewModel : BMICalculatorViewModel = hiltViewModel()
+        val state = viewModel.state.collectAsStateWithLifecycle()
+        ObserveAsEvents(
+            flow = viewModel.event
+        ) { event ->
+            when(event){
+                is BmiCalculatorScreenEvent.NavigateToGoalSetUpScreen -> {
+                    navigator.navigateTo(Screen.GoalSetup)
+                }
+
+                null -> {}
+            }
+        }
+
+        if (state.value.error != null){
+            SomethingWrongLayout(
+                errorMessage = "Something went wrong on our end please report it to us",
+                onRetry = {
+                    viewModel.onAction(BmiCalculatorScreenAction.ReloadData)
+                }
+            )
+        } else {
+            BMIScreen(
+                state = state.value,
+                onAction = viewModel::onAction,
+                goToSettings = gotoSettings,
+                toggleDrawer = toggleDrawer
+            )
+        }
     }
 }
 
@@ -167,9 +212,12 @@ fun NavGraphBuilder.editRecordScreen(
     }
 }
 
-fun NavGraphBuilder.goalSetupScreen() {
+fun NavGraphBuilder.goalSetupScreen(
+    navigator: Navigator
+) {
     composable<Screen.GoalSetup> {
         val viewmodel: BmiGoalSetupViewModel = hiltViewModel()
+        // todo : handle events
         GoalSetupScreen(
             state = viewmodel.state.collectAsStateWithLifecycle().value,
             onAction = viewmodel::onAction

@@ -15,7 +15,7 @@ sealed class Screen : Destination(){
 
     object History: Screen()
 
-    object Home: Screen()
+    object Calculator: Screen()
 
     object Chart : Screen()
 

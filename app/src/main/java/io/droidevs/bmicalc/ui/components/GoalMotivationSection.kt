@@ -50,6 +50,7 @@ fun GoalMotivationSection(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 4.dp)
             )
+
         }
     }
 }

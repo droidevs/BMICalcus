@@ -160,7 +160,7 @@ fun BackAppBar(
     title: String? = null,
     menuItems: List<AppBarMenuItem> = emptyList(),
     onBackPressed: () -> Unit,
-    onMoreClicked: ((AppBarMenuItem) -> Unit)? = null,
+    onMenuItemClicked: ((AppBarMenuItem) -> Unit)? = null,
 ) {
 
     AnimatedAppBar(
@@ -169,39 +169,56 @@ fun BackAppBar(
             BackButton(onClick = onBackPressed)
         },
         actions = {
-            var expanded by remember { mutableStateOf(false) }
+            val actionMenuItems = menuItems.filter { it.action }
+            val others = menuItems.filter { !it.action }
 
-            Box {
+            for (actionItem in actionMenuItems){
                 IconButton(
-                    onClick = { expanded = !expanded },
-                    modifier = Modifier
-                        .graphicsLayer {
-                            rotationZ = if (expanded) 180f else 0f
-                            scaleX = if (expanded) 0.8f else 1f
-                            scaleY = if (expanded) 0.8f else 1f
-                        }
-                        .animateContentSize()
+                    onClick = {
+                        onMenuItemClicked?.let { it(actionItem) }
+                    }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.MoreVert, // Three-dot menu
-                        contentDescription = "More",
-                        tint = Color.White
+                        imageVector = actionItem.iconRes,
+                        contentDescription = actionItem.title,
                     )
                 }
-                if(menuItems != null && menuItems.isNotEmpty()) {
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
+            }
+            if (others.isNotEmpty()) {
+                var expanded by remember { mutableStateOf(false) }
+
+                Box {
+                    IconButton(
+                        onClick = { expanded = !expanded },
+                        modifier = Modifier
+                            .graphicsLayer {
+                                rotationZ = if (expanded) 180f else 0f
+                                scaleX = if (expanded) 0.8f else 1f
+                                scaleY = if (expanded) 0.8f else 1f
+                            }
+                            .animateContentSize()
                     ) {
-                        menuItems.forEach { item ->
-                            DropdownMenuItem(
-                                text = { Text(item.title) },
-                                onClick = {
-                                    expanded = false
-                                    onMoreClicked?.invoke(item)
-                                }
-                            )
+                        Icon(
+                            imageVector = Icons.Default.MoreVert, // Three-dot menu
+                            contentDescription = "More",
+                            tint = Color.White
+                        )
+                    }
+                    if (others.isNotEmpty()) {
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
+                        ) {
+                            others.forEach { item ->
+                                DropdownMenuItem(
+                                    text = { Text(item.title) },
+                                    onClick = {
+                                        expanded = false
+                                        onMenuItemClicked?.invoke(item)
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -221,8 +238,10 @@ fun BackAppBar(
 @Composable
 fun MenuAppBar(
     title: String? = null,
+    menuItems: List<AppBarMenuItem> = emptyList(),
     onMenuPressed: () -> Unit,
     onSettingPressed: () -> Unit,
+    onMenuItemClicked: ((AppBarMenuItem) -> Unit)? = null,
 ) {
     var menuButtonPressed by remember { mutableStateOf(false) }
     var settingsButtonPressed by remember { mutableStateOf(false) }
@@ -236,6 +255,61 @@ fun MenuAppBar(
         },
         actions = {
             SettingsButton (onClick = onSettingPressed)
+
+            val actionMenuItems = menuItems.filter { it.action }
+            val others = menuItems.filter { !it.action }
+
+            for (actionItem in actionMenuItems){
+                IconButton(
+                    onClick = {
+                        onMenuItemClicked?.let { it(actionItem) }
+                    }
+                ) {
+                    Icon(
+                        imageVector = actionItem.iconRes,
+                        contentDescription = actionItem.title,
+                    )
+                }
+            }
+            if (others.isNotEmpty()) {
+                var expanded by remember { mutableStateOf(false) }
+
+                Box {
+                    IconButton(
+                        onClick = { expanded = !expanded },
+                        modifier = Modifier
+                            .graphicsLayer {
+                                rotationZ = if (expanded) 180f else 0f
+                                scaleX = if (expanded) 0.8f else 1f
+                                scaleY = if (expanded) 0.8f else 1f
+                            }
+                            .animateContentSize()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.MoreVert, // Three-dot menu
+                            contentDescription = "More",
+                            tint = Color.White
+                        )
+                    }
+                    if (others.isNotEmpty()) {
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
+                        ) {
+                            others.forEach { item ->
+                                DropdownMenuItem(
+                                    text = { Text(item.title) },
+                                    onClick = {
+                                        expanded = false
+                                        onMenuItemClicked?.invoke(item)
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
     )
 }

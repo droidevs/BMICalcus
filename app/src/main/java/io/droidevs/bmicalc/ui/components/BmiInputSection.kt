@@ -35,11 +35,11 @@ import io.droidevs.bmicalc.ui.window.LocalWindow
 @Composable
 fun BmiInputSection(
     unitSystem: UnitSystem,
-    height: Float,
-    weight: Float,
+    height: Float?,
+    weight: Float?,
     validation: BmiInputValidationResult,
-    onChangeHeight: (Float) -> Unit,
-    onChangeWeight: (Float) -> Unit,
+    onChangeHeight: (Float?) -> Unit,
+    onChangeWeight: (Float?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val screenSizeClass = LocalWindow.current.windowSize.getClass()
@@ -68,10 +68,12 @@ fun BmiInputSection(
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             OutlinedTextField(
-                value = UnitSystem.DEFAULT.convertHeight(height, unitSystem).toString(),
+                value = if (height!= null) UnitSystem.DEFAULT.convertHeight(height, unitSystem).toString() else "",
                 onValueChange = { newValue ->
-                    if (newValue.isEmpty() || newValue.toFloatOrNull() != null) {
+                    if (newValue.isNotEmpty() || newValue.toFloatOrNull() != null) {
                         onChangeHeight(unitSystem.convertHeight(newValue.toFloat(), UnitSystem.DEFAULT))
+                    }else {
+                        onChangeHeight(null)
                     }
                 },
                 label = { Text(if (unitSystem == UnitSystem.METRIC) "Height (cm)" else "Height (in)") },
@@ -104,10 +106,12 @@ fun BmiInputSection(
             )
 
             OutlinedTextField(
-                value = UnitSystem.DEFAULT.convertWeight(weight, unitSystem).toString(),
+                value = if (weight!= null) UnitSystem.DEFAULT.convertWeight(weight, unitSystem).toString() else "",
                 onValueChange = { newValue ->
-                    if (newValue.isEmpty() || newValue.toFloatOrNull() != null) {
+                    if (newValue.isNotEmpty() || newValue.toFloatOrNull() != null) {
                         onChangeWeight(unitSystem.convertWeight(newValue.toFloat(), UnitSystem.DEFAULT))
+                    } else {
+                        onChangeWeight(null)
                     }
                 },
                 label = { Text(if (unitSystem == UnitSystem.METRIC) "Weight (kg)" else "Weight (lbs)") },

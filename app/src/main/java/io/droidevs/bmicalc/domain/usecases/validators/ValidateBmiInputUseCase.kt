@@ -1,29 +1,22 @@
-package io.droidevs.bmicalc.domain.usecases.bmi
+package io.droidevs.bmicalc.domain.usecases.validators
 
-import androidx.compose.ui.util.unpackInt1
 import io.droidevs.bmicalc.data.model.HeightUnit
 import io.droidevs.bmicalc.data.model.UnitSystem
 import io.droidevs.bmicalc.data.model.WeightUnit
 import io.droidevs.bmicalc.domain.model.BmiInputValidationResult
 import io.droidevs.bmicalc.domain.model.ValidationError
-import io.droidevs.bmicalc.domain.result.onFailure
-import io.droidevs.bmicalc.domain.result.onSuccess
-import io.droidevs.bmicalc.domain.usecases.unitsystem.GetUnitSystemUseCase
-import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.Error
-import kotlinx.coroutines.flow.first
 
 class ValidateBmiInputUseCase(){
 
 
-    suspend operator fun invoke(unitSystem: UnitSystem, height: Float, weight: Float) : BmiInputValidationResult {
+    suspend operator fun invoke(unitSystem: UnitSystem, height: Float?, weight: Float?) : BmiInputValidationResult {
         val validation = BmiInputValidationResult()
         val weightRange = WeightUnit.getUnit(unitSystem).validRange
         val heightRange = HeightUnit.getUnit(unitSystem).validRange
-        if (height !in heightRange.start..heightRange.endInclusive){
+        if (height != null && height !in heightRange.start..heightRange.endInclusive){
             validation.copy(heightError = ValidationError.OutOfRangeError(min = heightRange.start, max = heightRange.endInclusive))
         }
-        if (weight !in weightRange.start..weightRange.endInclusive){
+        if (weight!= null && weight !in weightRange.start..weightRange.endInclusive){
             validation.copy(weightError = ValidationError.OutOfRangeError(min =weightRange.start, max = weightRange.endInclusive))
         }
         return validation

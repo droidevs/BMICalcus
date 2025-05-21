@@ -1,6 +1,6 @@
 package io.droidevs.wallpaper.domain.result
 
-import io.droidevs.wallpaper.domain.result.errors.Error
+import io.droidevs.bmicalc.domain.result.errors.Error
 
 
 typealias RootError = Error

@@ -16,13 +16,8 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,17 +29,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import io.droidevs.bmicalc.ui.helper.actions.HistoryScreenAction
-import io.droidevs.bmicalc.ui.components.AnimatedAppBar
 import io.droidevs.bmicalc.ui.components.BmiRecordCardWithActions
 import io.droidevs.bmicalc.ui.components.DirectionMode
+import io.droidevs.bmicalc.ui.components.MenuAppBar
 import io.droidevs.bmicalc.ui.components.PlaceholderCard
 import io.droidevs.bmicalc.ui.components.PullToRefresh
 import io.droidevs.bmicalc.ui.components.shrimmerCount
 import io.droidevs.bmicalc.ui.helper.states.HistoryState
 import io.droidevs.bmicalc.ui.layouts.CompactLayoutWithScaffold
 import io.droidevs.bmicalc.ui.layouts.DoubleLayoutWithScaffold
+import io.droidevs.bmicalc.ui.model.AppBarMenuItem
 import io.droidevs.bmicalc.ui.model.BmiRecordUi
 import io.droidevs.bmicalc.ui.model.LoadingMode
 import io.droidevs.bmicalc.ui.model.RevealState
@@ -113,42 +108,22 @@ fun BmiHistoryScreen(
 @Composable
 private fun HistoryScreenAppBar(
     onMenuClick: () -> Unit,         // Delegate drawer control to parent
-    onSettingsClick: () -> Unit,      // Delegate settings navigation
-    onFavoriteClick: () -> Unit,      // Delegate favorite control to parent
+    goToSettings: () -> Unit,      // Delegate settings navigation
+    goToFavorite: () -> Unit,      // Delegate favorite control to parent
 ) {
-    AnimatedAppBar(
-        title = "BMI History",
-        actions = {
-            // Settings action
-            IconButton(
-                onClick = onFavoriteClick,
-                modifier = Modifier.padding(end = 12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Favorite,
-                    contentDescription = "Favorite"
-                )
-            }
-            IconButton(
-                onClick = onSettingsClick,
-                modifier = Modifier.padding(end = 12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = "Settings"
-                )
-            }
-        },
-        navigationIcon = {
-            // Drawer menu control
-            IconButton(
-                onClick = onMenuClick,
-                modifier = Modifier.padding(start = 12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Open navigation drawer"
-                )
+    MenuAppBar(
+        menuItems = listOf(
+            AppBarMenuItem(
+                id = 1,
+                title = "Home",
+                iconRes = Icons.Default.Favorite,
+            )
+        ),
+        onSettingPressed = goToSettings,
+        onMenuPressed = onMenuClick,
+        onMenuItemClicked = { item ->
+            when (item.id) {
+                1 -> goToFavorite()
             }
         }
     )
@@ -166,8 +141,8 @@ private fun PortraitHistoryScreen(
         topAppBar = {
             HistoryScreenAppBar(
                 onMenuClick = onMenuClick,
-                onSettingsClick = onSettingsClick,
-                onFavoriteClick = {
+                goToSettings = onSettingsClick,
+                goToFavorite = {
                     onAction(HistoryScreenAction.OnFavoriteClicked)
                 }
             )

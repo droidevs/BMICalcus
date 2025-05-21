@@ -1,4 +1,4 @@
-package io.droidevs.wallpaper.domain.result.errors
+package io.droidevs.bmicalc.domain.result.errors
 
 import io.droidevs.wallpaper.domain.result.RootError
 
