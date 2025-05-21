@@ -21,10 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import io.droidevs.bmicalc.domain.GoalStatus
+import io.droidevs.bmicalc.utils.calculateProgressPercentage
 
 
 @Composable
 fun GoalProgressVisualization(
+    initialBmi: Float,
     currentBmi: Float,
     targetBmi: Float,
     progress: GoalStatus,
@@ -34,9 +36,13 @@ fun GoalProgressVisualization(
 
     val progressText = progress.description
 
-    val progressValue by remember(currentBmi, targetBmi) {
+    val progressValue by remember(initialBmi,currentBmi, targetBmi) {
         derivedStateOf {
-            (currentBmi / targetBmi).coerceIn(0f, 1f)
+            calculateProgressPercentage(
+                initialBmi,
+                currentBmi,
+                targetBmi
+            )
         }
     }
 

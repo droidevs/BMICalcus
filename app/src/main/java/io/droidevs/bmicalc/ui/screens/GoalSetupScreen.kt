@@ -132,6 +132,7 @@ private fun CompactGoalLayout(
         // Progress visualization takes more space when in compact mode
         uiState.activeBmiGoal?.let { goal ->
             GoalProgressVisualization(
+                initialBmi = goal.initialBmi,
                 currentBmi = uiState.bmiScore?.value?: 0f,
                 targetBmi = goal.targetBmi,
                 progress = uiState.goalStatus,
@@ -181,6 +182,7 @@ private fun ExpandedGoalLayout(
         ) {
             uiState.activeBmiGoal?.let { goal ->
                 GoalProgressVisualization(
+                    initialBmi = goal.initialBmi,
                     currentBmi = uiState.bmiScore?.value?: 0f,
                     targetBmi = goal.targetBmi,
                     progress = uiState.goalStatus,
