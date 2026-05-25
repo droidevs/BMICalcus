@@ -4,8 +4,8 @@ package io.droidevs.bmicalc.data.pagging
 import io.droidevs.bmicalc.domain.model.BmiGoal
 import io.droidevs.bmicalc.domain.pager.DefaultPaginator
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
-import io.droidevs.wallpaper.domain.result.errors.Error
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.Error
 
 
 class GoalRecordPaginator(initialKey: Int,

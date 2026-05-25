@@ -2,8 +2,10 @@ package io.droidevs.bmicalc.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.droidevs.bmicalc.domain.GoalStatus
 import io.droidevs.bmicalc.domain.result.onSuccess
+import io.droidevs.bmicalc.domain.result.onSuccessSuspend
 import io.droidevs.bmicalc.domain.usecases.goal.AbandonGoalUseCase
 import io.droidevs.bmicalc.domain.usecases.goal.CompleteGoalUseCase
 import io.droidevs.bmicalc.domain.usecases.EvaluateBmiGoalProgressUseCase
@@ -18,8 +20,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BmiGoalSetupViewModel(
+@HiltViewModel
+class BmiGoalSetupViewModel @Inject constructor(
     val getActiveGoal: GetActiveBmiGoalUseCase,
     val setActiveGoal: SetActiveBmiGoalUseCase,
     val getScore: GetBmiScoreUseCase,
@@ -77,7 +81,25 @@ class BmiGoalSetupViewModel(
                     }
                 }
             }
-            BmiGoalAction.SaveGoal -> TODO()
+            BmiGoalAction.SaveGoal -> {
+                viewModelScope.launch {
+                    val currentScore = _state.value.bmiScore?.value ?: 0f
+                    val goal = _state.value.goalInput.let { input ->
+                        io.droidevs.bmicalc.data.model.ActiveBmiGoal(
+                            targetBmi = input.targetBmi,
+                            initialBmi = currentScore,
+                            targetDate = input.targetDate,
+                            motivation = input.motivation
+                        )
+                    }
+                    setActiveGoal.invoke(goal).onSuccessSuspend { saved ->
+                        _state.value = _state.value.copy(
+                            activeBmiGoal = saved,
+                            goalStatus = evaluateBmiGoal(goal = saved, currentBmi = currentScore)
+                        )
+                    }
+                }
+            }
             is BmiGoalAction.SetMotivation -> {
                 _state.value = _state.value.copy(
                     goalInput = _state.value.goalInput.copy(

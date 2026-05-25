@@ -28,6 +28,7 @@ import io.droidevs.bmicalc.ui.nav.roots.Graph
 
 import io.droidevs.bmicalc.ui.nav.roots.Screen
 import io.droidevs.bmicalc.ui.screens.BMIScreen
+import io.droidevs.bmicalc.ui.screens.BmiChartScreen
 import io.droidevs.bmicalc.ui.screens.BmiEditRecordScreen
 import io.droidevs.bmicalc.ui.screens.BmiHistoryScreen
 import io.droidevs.bmicalc.ui.screens.BmiRecordDetailsScreen
@@ -66,8 +67,10 @@ fun NavGraphBuilder.homeNavHost(
 
 
 fun NavGraphBuilder.chartScreen(){
-    composable<Screen.Chart> {
-        //BmiChartScreen()
+    composable<Graph.Chart> {
+        BmiChartScreen(
+            records = emptyList()
+        )
     }
 }
 
@@ -110,13 +113,12 @@ fun NavGraphBuilder.calculatorScreen(
 }
 
 
-@Composable
 fun NavGraphBuilder.historyScreen(
     navigator: Navigator,
     onDrawerMenuClick: () -> Unit,
     onSettingsClick: () -> Unit
 ){
-    composable<Screen.History>{
+    composable<Graph.History>{
         val viewModel : BmiRecordHistoryViewModel = hiltViewModel()
         val state = viewModel.state.collectAsStateWithLifecycle()
         ObserveAsEvents(
@@ -128,6 +130,9 @@ fun NavGraphBuilder.historyScreen(
                 }
                 is BmiRecordHistoryScreenEvent.NavigateToFavorites -> {
                     navigator.navigateTo(Screen.Favorites)
+                }
+                is BmiRecordHistoryScreenEvent.NavigateToRecordDetails -> {
+                    navigator.navigateTo(Screen.RecordDetail(event.recordId))
                 }
                 else -> {
                     event.toMessageResId()?.let { message ->
@@ -284,6 +289,10 @@ fun NavGraphBuilder.recordDetailScreen(
 fun BmiRecordHistoryScreenEvent.toMessageResId(): Int? = when (this) {
     BmiRecordHistoryScreenEvent.RecordDeletedSuccessfully -> R.string.record_deleted_successfully
     BmiRecordHistoryScreenEvent.RecordDeleteFailed -> R.string.record_delete_failed
+    BmiRecordHistoryScreenEvent.RecordFavoredSuccessfully -> R.string.favored_success
+    BmiRecordHistoryScreenEvent.RecordUnfavoredSuccessfully -> R.string.unfavored_success
+    BmiRecordHistoryScreenEvent.RecordFavoriteFailed -> R.string.favorite_error
+    BmiRecordHistoryScreenEvent.RecordUnfavoriteFailed -> R.string.unfavorite_error
     else -> null
 }
 
@@ -313,11 +322,14 @@ fun BmiRecordDetailsEvent.toMessageRes(): Int? {
 
 
 @Composable
-fun <T : ViewModel> NavBackStackEntry.sharedViewModel(controller : NavHostController) : T {
-    val navGraphRoute = destination.parent?.route ?: return TODO()//HiltViewModel()
-    val parentEntry = remember(this) {
-        controller.getBackStackEntry(navGraphRoute)
+inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(controller : NavHostController) : T {
+    val navGraphRoute = destination.parent?.route
+    return if (navGraphRoute == null) {
+        hiltViewModel()
+    } else {
+        val parentEntry = remember(this) {
+            controller.getBackStackEntry(navGraphRoute)
+        }
+        hiltViewModel(parentEntry)
     }
-
-    return TODO() //HiltViewModelFactory(controller.context,parentEntry)
 }

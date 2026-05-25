@@ -23,10 +23,25 @@ interface FavoriteBmiRecordDao {
     suspend fun deleteByBmiRecordId(bmiRecordId: Long) : Int
 
     @Query("SELECT * FROM favorite_bmi_records WHERE id = :id")
-    suspend fun getById(id: Long): Flow<FavoriteBmiRecordEntity?>
+    fun getById(id: Long): Flow<FavoriteBmiRecordEntity?>
 
     @Query("SELECT * FROM favorite_bmi_records WHERE bmiRecordId = :bmiRecordId")
-    suspend fun getByBmiRecordId(bmiRecordId: Long): Flow<FavoriteBmiRecordEntity?>
+    fun getByBmiRecordId(bmiRecordId: Long): Flow<FavoriteBmiRecordEntity?>
+
+    @Transaction
+    @Query("""
+        SELECT f.*,
+               b.id AS b_id,
+               b.bmi AS b_bmi,
+               b.height AS b_height,
+               b.weight AS b_weight,
+               b.date AS b_date,
+               b.is_favored AS b_is_favored
+        FROM favorite_bmi_records f
+        JOIN bmi_records b ON f.bmiRecordId = b.id
+        WHERE f.id = :id
+    """)
+    fun getFavoriteWithBmiById(id: Long): Flow<FavoriteWithBmiData?>
 
     @Query("SELECT * FROM favorite_bmi_records ORDER BY "+
             "dateFavored DESC")
@@ -39,20 +54,47 @@ interface FavoriteBmiRecordDao {
     suspend fun isFavorite(bmiRecordId: Long): Boolean
 
     @Transaction
-    @Query("""SELECT f.*,b.* FROM favorite_bmi_records f JOIN bmi_records b ON f.bmiRecordId = b.id 
-        WHERE f.customNote LIKE '%' || :query || '%' ORDER BY dateFavored DESC
-        LIMIT :limit OFFSET :offset """)
+    @Query("""
+        SELECT f.*,
+               b.id AS b_id,
+               b.bmi AS b_bmi,
+               b.height AS b_height,
+               b.weight AS b_weight,
+               b.date AS b_date,
+               b.is_favored AS b_is_favored
+        FROM favorite_bmi_records f
+        JOIN bmi_records b ON f.bmiRecordId = b.id
+        WHERE f.customNote LIKE '%' || :query || '%'
+        ORDER BY dateFavored DESC
+        LIMIT :limit OFFSET :offset
+    """)
     fun searchFavoritesByNote(query: String,offset: Int, limit: Int): Flow<List<FavoriteWithBmiData>>
 
 
     @Query("""
-        SELECT f.*,b.* FROM favorite_bmi_records f JOIN bmi_records b ON f.bmiRecordId = b.id
-        LIMIT :limit OFFSET :offset """)
+        SELECT f.*,
+               b.id AS b_id,
+               b.bmi AS b_bmi,
+               b.height AS b_height,
+               b.weight AS b_weight,
+               b.date AS b_date,
+               b.is_favored AS b_is_favored
+        FROM favorite_bmi_records f
+        JOIN bmi_records b ON f.bmiRecordId = b.id
+        LIMIT :limit OFFSET :offset
+    """)
     fun getFavorites(offset: Int, limit: Int): Flow<List<FavoriteWithBmiData>>
 
     @Transaction
     @Query("""
-    SELECT f.*,b.* FROM favorite_bmi_records f
+    SELECT f.*,
+           b.id AS b_id,
+           b.bmi AS b_bmi,
+           b.height AS b_height,
+           b.weight AS b_weight,
+           b.date AS b_date,
+           b.is_favored AS b_is_favored
+    FROM favorite_bmi_records f
     JOIN bmi_records b ON f.bmiRecordId = b.id
     WHERE (:query IS NULL OR f.customNote LIKE '%' || :query || '%')
       AND (:bmiMin IS NULL OR b.bmi >= :bmiMin)

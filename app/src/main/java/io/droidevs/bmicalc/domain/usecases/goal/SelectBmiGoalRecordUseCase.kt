@@ -4,11 +4,9 @@ import io.droidevs.bmicalc.ui.model.GoalRecordUi
 
 class SelectBmiGoalRecordUseCase {
 
-
-    operator fun  invoke(goals: List<GoalRecordUi>, goalId: Long){
-        val record = goals.find {
-            it.id == goalId
+    operator fun invoke(goals: List<GoalRecordUi>, goalId: Long): List<GoalRecordUi> {
+        return goals.map { record ->
+            if (record.id == goalId) record.copy(isSelected = true) else record
         }
-        record?.isSelected = true
     }
 }

@@ -8,7 +8,7 @@ import io.droidevs.bmicalc.data.preference.delegate.ProtoWriteDelegate
 import io.droidevs.bmicalc.data.preference.delegate.ProtoWriteDelegateImpl
 import io.droidevs.bmicalc.domain.preference.BmiGoalPreference
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.PreferenceError
+import io.droidevs.bmicalc.domain.result.errors.PreferenceError
 import kotlinx.coroutines.flow.Flow
 
 class BmiGoalPreferenceDataStore(

@@ -13,7 +13,7 @@ import io.droidevs.bmicalc.domain.GoalFilter
 import io.droidevs.bmicalc.domain.GoalFlag
 import io.droidevs.bmicalc.domain.repository.BmiGoalRecordRepository
 import io.droidevs.bmicalc.domain.result.mapResult
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import io.droidevs.wallpaper.domain.result.Result

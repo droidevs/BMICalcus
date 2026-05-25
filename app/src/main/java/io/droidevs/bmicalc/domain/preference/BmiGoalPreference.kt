@@ -2,7 +2,7 @@ package io.droidevs.bmicalc.domain.preference
 
 import io.droidevs.bmicalc.data.model.ActiveBmiGoal
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.PreferenceError
+import io.droidevs.bmicalc.domain.result.errors.PreferenceError
 import kotlinx.coroutines.flow.Flow
 
 

@@ -3,7 +3,7 @@ package io.droidevs.bmicalc.domain.repository
 import io.droidevs.bmicalc.domain.model.BmiFilter
 import io.droidevs.bmicalc.domain.model.BmiRecord
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
 import kotlinx.coroutines.flow.Flow
 
 

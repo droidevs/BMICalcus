@@ -2,7 +2,7 @@ package io.droidevs.bmicalc.data.preference.delegate
 
 import androidx.datastore.core.DataStore
 import io.droidevs.bmicalc.data.preference.exceptions.flowCatchingPreference
-import io.droidevs.wallpaper.domain.result.errors.PreferenceError
+import io.droidevs.bmicalc.domain.result.errors.PreferenceError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import io.droidevs.wallpaper.domain.result.Result

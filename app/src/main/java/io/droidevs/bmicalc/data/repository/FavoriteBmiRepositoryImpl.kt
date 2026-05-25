@@ -4,7 +4,7 @@ import io.droidevs.bmicalc.data.db.dao.FavoriteBmiRecordDao
 import io.droidevs.bmicalc.data.db.entities.FavoriteBmiRecordEntity
 import io.droidevs.bmicalc.data.db.exceptions.flowRunCatchingDatabase
 import io.droidevs.bmicalc.data.db.exceptions.runCatchingDatabaseResult
-import io.droidevs.bmicalc.data.db.relations.FavoriteWithBmiData
+import io.droidevs.bmicalc.data.db.exceptions.DatabaseException
 import io.droidevs.bmicalc.data.mapers.toDomain
 import io.droidevs.bmicalc.domain.FavoredFilter
 import io.droidevs.bmicalc.domain.model.BmiRecord
@@ -12,7 +12,7 @@ import io.droidevs.bmicalc.domain.model.FavoredBmiRecord
 import io.droidevs.bmicalc.domain.model.TimeRange
 import io.droidevs.bmicalc.domain.repository.FavoriteBmiRepository
 import io.droidevs.bmicalc.domain.result.mapResult
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -68,7 +68,11 @@ class FavoriteBmiRepositoryImpl(
     }
 
     override suspend fun getFavoriteById(id: Long): Flow<Result<BmiRecord, DatabaseError>> {
-        return TODO()
+        return flowRunCatchingDatabase {
+            favoriteDao.getFavoriteWithBmiById(id).map { record ->
+                record?.bmiData?.toDomain() ?: throw DatabaseException.NoElementFound()
+            }
+        }
     }
 
     override suspend fun getFavoriteByBmiRecordId(bmiRecordId: Long): Flow<FavoriteBmiRecordEntity?> {
@@ -89,7 +93,7 @@ class FavoriteBmiRepositoryImpl(
 
     override fun getFavorites(page: Int, pageSize: Int): Flow<Result<List<FavoredBmiRecord>, DatabaseError>> {
         return flowRunCatchingDatabase {
-            favoriteDao.getFavorites(offset = pageSize * (page - 1), limit = pageSize)
+            favoriteDao.getFavorites(offset = pageSize * page, limit = pageSize)
                 .map { records ->
                     records.map {
                         it.toDomain()
@@ -105,7 +109,7 @@ class FavoriteBmiRepositoryImpl(
         pageSize: Int
     ): Flow<Result<List<FavoredBmiRecord>, DatabaseError>> {
         return flowRunCatchingDatabase {
-            favoriteDao.searchFavoritesByNote(query = query, offset = pageSize * (page - 1), limit = pageSize)
+            favoriteDao.searchFavoritesByNote(query = query, offset = pageSize * page, limit = pageSize)
                 .map { records ->
                     records.map {
                         it.toDomain()
@@ -160,7 +164,7 @@ class FavoriteBmiRepositoryImpl(
                 heightMax = filter.height?.end,
                 sortField = filter.order?.orderBy?.text?: "DATE",
                 sortOrder = filter.order?.orderType?.text?: "ASC",
-                offset = pageSize * (page - 1),
+                offset = pageSize * page,
                 limit = pageSize
             )
         }.mapResult { records ->

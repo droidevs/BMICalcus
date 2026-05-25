@@ -5,7 +5,7 @@ import io.droidevs.bmicalc.domain.model.BmiGoal
 import io.droidevs.bmicalc.domain.GoalFilter
 import kotlinx.coroutines.flow.Flow
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
 
 interface BmiGoalRecordRepository {
 
@@ -19,7 +19,7 @@ interface BmiGoalRecordRepository {
      * Marks a goal as abandoned and archives it
      * @return [Result.Success] if operation succeeded, [Result.Failure] with [GoalRepositoryException] otherwise
      */
-    suspend fun abandonGoal(goal: ActiveBmiGoal): Result<Long,DatabaseError>
+    suspend fun abandonGoal(goal: ActiveBmiGoal): Result<Long, DatabaseError>
 
     /**
      * Searches goals with pagination and optional filters

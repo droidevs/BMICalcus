@@ -11,10 +11,9 @@ import io.droidevs.bmicalc.domain.model.TimeRange
 import io.droidevs.bmicalc.domain.repository.BmiRepository
 import io.droidevs.bmicalc.domain.result.mapResult
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
@@ -64,7 +63,7 @@ class BmiRecordRepositoryImpl(
                 maxWeight = filter.weight?.end,
                 minHeight = filter.height?.start,
                 maxHeight = filter.height?.end,
-                offset = pageSize * (page - 1),
+                offset = pageSize * page,
                 limit = pageSize
             )
         }.mapResult { records ->
@@ -77,16 +76,14 @@ class BmiRecordRepositoryImpl(
     override suspend fun getRecord(id: Long): Flow<Result<BmiRecord, DatabaseError>> {
         return flowRunCatchingDatabase {
             bmiDao.get(id)
-        }.mapResult { records ->
-            records.map {
-                it.toDomain()
-            }
+        }.mapResult { record ->
+            record.toDomain()
         }
     }
 
     override suspend fun getRecordPage(page: Int, pageSize: Int): Flow<Result<List<BmiRecord>, DatabaseError>> {
         return flowRunCatchingDatabase {
-            bmiDao.getRecordsPage(offset = pageSize*page, limit = pageSize)
+            bmiDao.getRecordsPage(offset = pageSize * page, limit = pageSize)
         }.mapResult { records ->
             records.map { it.toDomain() }
         }

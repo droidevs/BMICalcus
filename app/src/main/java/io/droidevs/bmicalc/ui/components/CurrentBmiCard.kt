@@ -9,18 +9,27 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import io.droidevs.bmicalc.model.BMICategory
+import io.droidevs.bmicalc.domain.model.BMICategory
+import io.droidevs.bmicalc.domain.model.getCategory
 
 @Composable
 fun CurrentBmiCard(
     currentBmi: Float,
-    category: BMICategory,
     modifier: Modifier = Modifier
 ) {
+    val category by remember(currentBmi) {
+        derivedStateOf {
+            getCategory((currentBmi))
+        }
+    }
+
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
@@ -43,7 +52,6 @@ fun CurrentBmiCard(
                     fontWeight = FontWeight.Bold
                 )
             }
-
             Text(
                 text = category.displayName,
                 style = MaterialTheme.typography.titleLarge,

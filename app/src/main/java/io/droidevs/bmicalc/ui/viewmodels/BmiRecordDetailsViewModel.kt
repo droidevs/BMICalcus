@@ -2,6 +2,7 @@ package io.droidevs.bmicalc.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.droidevs.bmicalc.domain.result.onFailure
 import io.droidevs.bmicalc.domain.result.onSuccess
 import io.droidevs.bmicalc.domain.result.onSuccessWithResult
@@ -26,8 +27,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BmiRecordDetailsViewModel(
+@HiltViewModel
+class BmiRecordDetailsViewModel @Inject constructor(
     val getUnitSystem: GetUnitSystemUseCase,
     val getBmiRecord: GetBmiRecordByIdUseCase,
     val deleteBmiRecord: DeleteBmiRecordUseCase,
@@ -94,7 +97,7 @@ class BmiRecordDetailsViewModel(
                     }
                 }
                 BmiRecordDetailsAction.UnfavoriteAction -> {
-                    deleteFromFavorite(recordId).onSuccess {
+                    deleteFromFavorite.removeByBmiRecordId(recordId).onSuccess {
                         _eventSharedFlow.tryEmit(BmiRecordDetailsEvent.UnfavoredSuccessfully)
                     }.onFailure {
                         _eventSharedFlow.tryEmit(BmiRecordDetailsEvent.FailedToUnfavored)

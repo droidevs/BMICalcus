@@ -53,6 +53,7 @@ import io.droidevs.bmicalc.ui.components.UnitSystemToggle
 import io.droidevs.bmicalc.ui.helper.states.BmiCalculatorState
 import io.droidevs.bmicalc.ui.layouts.DoubleFoldedLayout
 import io.droidevs.bmicalc.ui.layouts.DoubleLayoutWithScaffold
+import io.droidevs.bmicalc.ui.layouts.CompactLayoutWithScaffold
 import io.droidevs.bmicalc.ui.window.LocalWindow
 import kotlinx.datetime.Instant
 
@@ -83,7 +84,24 @@ fun BMIScreen(
         )
     }
     else {
-        // TODO:
+        CompactLayoutWithScaffold(
+            topAppBar = {
+                BmiCalculatorAppBar(
+                    goToSettings = goToSettings,
+                    toggleDrawer = toggleDrawer
+                )
+            },
+            floatingActionButton = {},
+        ) {
+            LeftContent(
+                state = state,
+                onAction = onAction
+            )
+            RightContent(
+                state = state,
+                onAction = onAction
+            )
+        }
     }
 }
 
@@ -177,6 +195,7 @@ private fun RightContent(
         }?: NoBmiRecordsCard(modifier = Modifier.fillMaxWidth())
         state.activeBmiGoal?.let { goal ->
             GoalProgressVisualization(
+                initialBmi = goal.initialBmi,
                 currentBmi = state.bmiScore?.value?: 0f,
                 targetBmi = goal.targetBmi,
                 progress = state.goalStatus,

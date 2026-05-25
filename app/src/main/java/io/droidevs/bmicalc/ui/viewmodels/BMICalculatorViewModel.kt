@@ -2,6 +2,7 @@ package io.droidevs.bmicalc.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.droidevs.bmicalc.domain.model.BMICategory
 import io.droidevs.bmicalc.data.model.UnitSystem
 import io.droidevs.bmicalc.domain.model.BmiResult
@@ -20,9 +21,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 // BMICalculatorViewModel.kt
-class BMICalculatorViewModel(
+@HiltViewModel
+class BMICalculatorViewModel @Inject constructor(
     val unitUseCases : UnitSystemUseCases,
     val validate : ValidateBmiInputUseCase
 ) : ViewModel() {

@@ -21,6 +21,7 @@ fun BmiRecord.toUiModel() : BmiRecordUi {
         weight = this.weight,
         bmi = this.bmi,
         date = date,
+        isFavorite = this.isFavorite
     )
 }
 
@@ -30,6 +31,7 @@ fun BmiRecordUi.toDomainModel() : BmiRecord {
         height = height,
         weight = weight,
         bmi = bmi,
-        date = date
+        date = date,
+        isFavorite = isFavorite
     )
 }

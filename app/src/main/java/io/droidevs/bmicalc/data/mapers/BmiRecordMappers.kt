@@ -13,6 +13,7 @@ fun BmiRecord.toEntity(): BmiRecordEntity {
         height = height,
         weight = weight,
         date = date,
+        isFavored = isFavorite
     )
 }
 
@@ -22,7 +23,8 @@ fun BmiRecordEntity.toDomain(): BmiRecord {
         bmi = bmi,
         height = height,
         weight = weight,
-        date = date
+        date = date,
+        isFavorite = isFavored
     )
 }
 

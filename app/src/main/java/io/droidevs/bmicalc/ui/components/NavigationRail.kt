@@ -72,7 +72,11 @@ fun AppNavRail(
             },
         containerColor = Color.Transparent,
         header = {
-            TODO()
+            Text(
+                text = "BMI",
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = TextStyle(fontWeight = FontWeight.Bold)
+            )
         }
     ){
        items.forEach {

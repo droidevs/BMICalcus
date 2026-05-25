@@ -1,5 +1,6 @@
 package io.droidevs.bmicalc.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -109,26 +110,16 @@ fun BmiHistoryScreen(
 private fun HistoryScreenAppBar(
     onMenuClick: () -> Unit,         // Delegate drawer control to parent
     goToSettings: () -> Unit,      // Delegate settings navigation
-    goToFavorite: () -> Unit,      // Delegate favorite control to parent
 ) {
     MenuAppBar(
-        menuItems = listOf(
-            AppBarMenuItem(
-                id = 1,
-                title = "Home",
-                iconRes = Icons.Default.Favorite,
-            )
-        ),
+        menuItems = emptyList(),
         onSettingPressed = goToSettings,
         onMenuPressed = onMenuClick,
-        onMenuItemClicked = { item ->
-            when (item.id) {
-                1 -> goToFavorite()
-            }
-        }
+        onMenuItemClicked = {}
     )
 }
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 private fun PortraitHistoryScreen(
     state : HistoryState,
@@ -141,10 +132,7 @@ private fun PortraitHistoryScreen(
         topAppBar = {
             HistoryScreenAppBar(
                 onMenuClick = onMenuClick,
-                goToSettings = onSettingsClick,
-                goToFavorite = {
-                    onAction(HistoryScreenAction.OnFavoriteClicked)
-                }
+                goToSettings = onSettingsClick
             )
         },
         floatingActionButton = {
@@ -250,6 +238,7 @@ private fun PortraitHistoryScreen(
     }
 }
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun LandscapeDynamicFeed(

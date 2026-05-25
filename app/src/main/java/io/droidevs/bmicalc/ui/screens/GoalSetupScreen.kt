@@ -301,9 +301,15 @@ fun GoalSettingSection(
             }
 
             // Target BMI input
+            val targetBmiText = if (state.goalInput.targetBmi == 0f) "" else state.goalInput.targetBmi.toString()
             OutlinedTextField(
-                value = state.goalInput?.targetBmi.toString(),
-                onValueChange = { if (isEditable) onAction(BmiGoalAction.SetTargetBmi(it.toFloat())) },
+                value = targetBmiText,
+                onValueChange = { input ->
+                    if (isEditable) {
+                        val parsed = input.toFloatOrNull() ?: 0f
+                        onAction(BmiGoalAction.SetTargetBmi(parsed))
+                    }
+                },
                 label = { Text("Target BMI") },
                 singleLine = true,
                 enabled = isEditable,
@@ -325,13 +331,13 @@ fun GoalSettingSection(
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = state.goalInput?.targetDate?.let {
+                        text = state.goalInput.targetDate?.let {
                             Instant.fromEpochMilliseconds(it).format("MMM d, yyyy")
                         } ?: "Select Target Date (Optional)"
                     )
                 }
 
-                if (state.goalInput?.targetDate != null && isEditable) {
+                if (state.goalInput.targetDate != null && isEditable) {
                     IconButton(
                         onClick = { onAction(BmiGoalAction.SetTargetDate(null)) }
                     ) {
@@ -342,7 +348,7 @@ fun GoalSettingSection(
 
             // Motivation input
             OutlinedTextField(
-                value = state.goalInput?.motivation ?: "",
+                value = state.goalInput.motivation,
                 onValueChange = { if (isEditable) onAction(BmiGoalAction.SetMotivation(it)) },
                 label = { Text("Motivation (Optional)") },
                 modifier = Modifier.fillMaxWidth(),
@@ -360,7 +366,7 @@ fun GoalSettingSection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
-                    enabled = state.goalInput.targetBmi != null
+                    enabled = state.goalInput.targetBmi > 0f
                 ) {
                     Text("Set Goal")
                 }
