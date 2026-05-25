@@ -80,16 +80,16 @@ private fun DrawScope.drawYAxis(
         )
 
         drawContext.canvas.nativeCanvas.apply {
-            drawText(
-                config.yLabelFormatter(value),
-                10.dp.toPx(),
-                yPos + (12.sp.toPx() / 3),
-                Paint().apply {
-                    color = android.graphics.Color.BLACK
-                    textSize = 12.sp.toPx()
-                    textAlign = Paint.Align.LEFT
-                }
-            )
+                drawText(
+                    config.yLabelFormatter(value),
+                    10.dp.toPx(),
+                    yPos + (13.sp.toPx() / 3),
+                    Paint().apply {
+                        color = android.graphics.Color.BLACK
+                        textSize = 13.sp.toPx()
+                        textAlign = Paint.Align.LEFT
+                    }
+                )
         }
     }
 }
@@ -124,7 +124,7 @@ private fun DrawScope.drawXAxis(
             if (label.isMajor || xLabels.size <= 8) {
                 val textPaint = Paint().apply {
                     color = android.graphics.Color.BLACK
-                    textSize = 12.sp.toPx()
+                    textSize = 13.sp.toPx()
                     textAlign = Paint.Align.CENTER
                 }
                 val text = config.xLabelFormatter(label.value)

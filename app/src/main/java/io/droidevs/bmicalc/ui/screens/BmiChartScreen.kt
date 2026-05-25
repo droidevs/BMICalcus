@@ -83,7 +83,7 @@ fun ChartTypeSelector(chartState: ChartState) {
 
     Box(modifier = Modifier.padding(16.dp)) {
         OutlinedButton(onClick = { expanded = true }) {
-            Text(chartState.chartType.name)
+            Text(chartState.chartType.text)
             Icon(Icons.Default.ArrowDropDown, contentDescription = null)
         }
         DropdownMenu(

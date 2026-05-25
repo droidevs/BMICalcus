@@ -12,7 +12,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
@@ -46,8 +45,7 @@ fun BottomNavigationBar(
                         MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f)
                     )
                 )
-            )
-            .blur(10.dp), // Glass effect
+            ),
         containerColor = Color.Transparent,
         tonalElevation = 12.dp
     ) {

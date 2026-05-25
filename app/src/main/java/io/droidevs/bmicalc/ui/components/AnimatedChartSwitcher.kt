@@ -8,6 +8,9 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.animation.with
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.ui.unit.dp
 import io.droidevs.bmicalc.domain.model.ChartType
 import io.droidevs.bmicalc.domain.model.DataType
 import io.droidevs.bmicalc.domain.model.HealthRecord
@@ -21,6 +24,10 @@ fun AnimatedChartSwitcher(
     records: List<HealthRecord>,
     modifier: Modifier = Modifier
 ) {
+    val chartModifier = modifier
+        .fillMaxWidth()
+        .height(300.dp)
+
     if (records.isEmpty()) {
         EmptyChartPlaceholder(message = "No chart data yet")
         return
@@ -40,11 +47,11 @@ fun AnimatedChartSwitcher(
         transitionSpec = {
             fadeIn() togetherWith  fadeOut()
         },
-        modifier = modifier, label = ""
+        modifier = chartModifier, label = ""
     ) { targetChartType ->
         HealthChart(
             config = config,
-            modifier = modifier
+            modifier = chartModifier
         )
     }
 }

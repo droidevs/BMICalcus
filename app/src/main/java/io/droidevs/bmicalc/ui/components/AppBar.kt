@@ -44,7 +44,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.scale
@@ -120,8 +119,7 @@ fun AnimatedAppBar(
                 )
             )
             .padding(vertical = 6.dp)
-            .shadow(8.dp, shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
-            .blur(8.dp),
+            .shadow(8.dp, shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent, // Background is handled by gradient.
             titleContentColor = Color.White,

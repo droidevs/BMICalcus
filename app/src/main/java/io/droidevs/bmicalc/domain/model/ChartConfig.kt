@@ -5,8 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import io.droidevs.bmicalc.domain.Range
-import kotlin.math.max
-import kotlin.math.min
+import io.droidevs.bmicalc.utils.format
+import kotlin.math.abs
+import kotlinx.datetime.Instant
 
 data class ChartConfig(
     val timRange: TimeRange = TimeRange.Week,
@@ -24,16 +25,34 @@ fun rememberChartConfig(
 ): ChartConfig {
 
     return remember(dataType, timeRange, data) {
+        fun formatDateLabel(value: Any): String {
+            val timestamp = value as? Long ?: return value.toString()
+            return Instant.fromEpochMilliseconds(timestamp).format("MMM d")
+        }
+
+        fun computeRange(values: List<Float>): Range {
+            val minValue = values.minOrNull()
+            val maxValue = values.maxOrNull()
+            if (minValue == null || maxValue == null) {
+                return Range(start = 0f, end = 1f)
+            }
+            if (minValue == maxValue) {
+                val padding = if (minValue == 0f) 1f else abs(minValue) * 0.1f
+                return Range(start = minValue - padding, end = maxValue + padding)
+            }
+            return Range(start = minValue * 0.9f, end = maxValue * 1.1f)
+        }
+
         when (dataType) {
 
             DataType.BMI -> {
                 val bmiPoints = data.map { DataPoint(value = it.bmi, timestamp = it.date) }
                 val bmiValues = bmiPoints.map { it.value }
                 ChartConfig(
-                    yRange = Range(start = bmiValues.min() * 0.9f, end = (bmiValues.max() * 1.1f)),
+                    yRange = computeRange(bmiValues),
                     timRange = timeRange,
                     yLabelFormatter = { "%.1f".format(it) },
-                    xLabelFormatter = { it.toString() },
+                    xLabelFormatter = { formatDateLabel(it) },
                     datasets = listOf(
                         ChartDataset(
                             label = "BMI",
@@ -47,10 +66,10 @@ fun rememberChartConfig(
                 val heightPoints = data.map { DataPoint(value = it.height, timestamp = it.date) }
                 val heightValues = heightPoints.map { it.value }
                 ChartConfig(
-                    yRange = Range(start = heightValues.min() * 0.9f, end = (heightValues.max() * 1.1f)),
+                    yRange = computeRange(heightValues),
                     timRange = timeRange,
                     yLabelFormatter = { "%.0f cm".format(it) },
-                    xLabelFormatter = { it.toString() },
+                    xLabelFormatter = { formatDateLabel(it) },
                     datasets = listOf(
                         ChartDataset(
                             label = "Height",
@@ -64,10 +83,10 @@ fun rememberChartConfig(
                 val weightPoints = data.map { DataPoint(value = it.weight, timestamp = it.date) }
                 val weightValues = weightPoints.map { it.value }
                 ChartConfig(
-                    yRange = Range(start = weightValues.min() * 0.9f, end = (weightValues.max() * 1.1f)),
+                    yRange = computeRange(weightValues),
                     timRange = timeRange,
                     yLabelFormatter = { "%.1f kg".format(it) },
-                    xLabelFormatter = { it.toString() },
+                    xLabelFormatter = { formatDateLabel(it) },
                     datasets = listOf(
                         ChartDataset(
                             label = "Weight",
@@ -82,11 +101,12 @@ fun rememberChartConfig(
                 val heightValues = heightPoints.map { it.value }
                 val weightPoints = data.map { DataPoint(value = it.weight, timestamp = it.date) }
                 val weightValues = weightPoints.map { it.value }
+                val combinedValues = heightValues + weightValues
                 ChartConfig(
-                    yRange = Range(start = min(heightValues.min(), weightValues.min()) * 0.9f, end = (max(heightValues.max(), weightValues.max()) * 1.1f)),
+                    yRange = computeRange(combinedValues),
                     timRange = timeRange,
                     yLabelFormatter = { if (it > 100) "%.0f cm".format(it) else "%.1f kg".format(it) },
-                    xLabelFormatter = { it.toString() },
+                    xLabelFormatter = { formatDateLabel(it) },
                     datasets = listOf(
                         ChartDataset(
                             label = "Height",

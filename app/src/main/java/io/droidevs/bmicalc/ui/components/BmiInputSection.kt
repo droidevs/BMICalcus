@@ -14,9 +14,12 @@ import androidx.compose.material3.OutlinedTextField
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -31,6 +34,9 @@ import io.droidevs.bmicalc.data.model.WeightUnit
 import io.droidevs.bmicalc.domain.model.BmiInputValidationResult
 import io.droidevs.bmicalc.domain.model.ValidationError
 import io.droidevs.bmicalc.ui.window.LocalWindow
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 @Composable
 fun BmiInputSection(
@@ -43,6 +49,20 @@ fun BmiInputSection(
     modifier: Modifier = Modifier
 ) {
     val screenSizeClass = LocalWindow.current.windowSize.getClass()
+    val numberFormatter = remember {
+        DecimalFormat("0.##", DecimalFormatSymbols(Locale.US))
+    }
+    val displayHeight = height?.let { UnitSystem.DEFAULT.convertHeight(it, unitSystem) }
+    val displayWeight = weight?.let { UnitSystem.DEFAULT.convertWeight(it, unitSystem) }
+    var heightText by rememberSaveable { mutableStateOf("") }
+    var weightText by rememberSaveable { mutableStateOf("") }
+
+    LaunchedEffect(displayHeight, unitSystem) {
+        heightText = displayHeight?.let { numberFormatter.format(it) } ?: ""
+    }
+    LaunchedEffect(displayWeight, unitSystem) {
+        weightText = displayWeight?.let { numberFormatter.format(it) } ?: ""
+    }
     // Responsive sizing
     val textFieldWidth by animateDpAsState(
         when (screenSizeClass.widthClass) {
@@ -68,8 +88,9 @@ fun BmiInputSection(
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             OutlinedTextField(
-                value = if (height != null) UnitSystem.DEFAULT.convertHeight(height, unitSystem).toString() else "",
+                value = heightText,
                 onValueChange = { newValue ->
+                    heightText = newValue
                     val sanitized = newValue.replace(',', '.')
                     val parsed = sanitized.toFloatOrNull()
                     when {
@@ -110,8 +131,9 @@ fun BmiInputSection(
             )
 
             OutlinedTextField(
-                value = if (weight != null) UnitSystem.DEFAULT.convertWeight(weight, unitSystem).toString() else "",
+                value = weightText,
                 onValueChange = { newValue ->
+                    weightText = newValue
                     val sanitized = newValue.replace(',', '.')
                     val parsed = sanitized.toFloatOrNull()
                     when {
@@ -128,7 +150,7 @@ fun BmiInputSection(
                 modifier = Modifier.fillMaxWidth(),
                 trailingIcon = {
                     Text(
-                        if (unitSystem == UnitSystem.METRIC) "kg" else "lb",
+                        if (unitSystem == UnitSystem.METRIC) "kg" else "lbs",
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
