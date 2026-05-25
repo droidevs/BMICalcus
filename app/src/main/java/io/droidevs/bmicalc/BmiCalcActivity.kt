@@ -44,6 +44,7 @@ import io.droidevs.bmicalc.ui.utils.ObserveAsEventsCompose
 import io.droidevs.bmicalc.ui.layouts.HomeDashboard
 
 import io.droidevs.bmicalc.ui.window.LocalWindow
+import io.droidevs.bmicalc.ui.window.FoldableInfo
 import io.droidevs.bmicalc.ui.window.WindowInfo
 import io.droidevs.bmicalc.ui.window.calculateWindowSize
 import io.droidevs.bmicalc.ui.window.getFoldableInfo
@@ -70,8 +71,12 @@ class BmiCalcActivity : ComponentActivity() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 windowInfoTracker!!.windowLayoutInfo(this@BmiCalcActivity)
                     .collect { layoutInfo ->
-                        val foldingFeature = layoutInfo.displayFeatures.firstOrNull() as FoldingFeature
-                        windowInfoFlow.value = windowInfoFlow.value.copy(foldableInfo = getFoldableInfo(foldingFeature))
+                        val foldingFeature = layoutInfo.displayFeatures
+                            .filterIsInstance<FoldingFeature>()
+                            .firstOrNull()
+                        windowInfoFlow.value = windowInfoFlow.value.copy(
+                            foldableInfo = foldingFeature?.let { getFoldableInfo(it) } ?: FoldableInfo()
+                        )
                     }
             }
         }
