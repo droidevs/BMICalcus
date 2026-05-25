@@ -68,23 +68,27 @@ fun BmiInputSection(
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             OutlinedTextField(
-                value = if (height!= null) UnitSystem.DEFAULT.convertHeight(height, unitSystem).toString() else "",
+                value = if (height != null) UnitSystem.DEFAULT.convertHeight(height, unitSystem).toString() else "",
                 onValueChange = { newValue ->
-                    if (newValue.isNotEmpty() || newValue.toFloatOrNull() != null) {
-                        onChangeHeight(unitSystem.convertHeight(newValue.toFloat(), UnitSystem.DEFAULT))
-                    }else {
-                        onChangeHeight(null)
+                    val sanitized = newValue.replace(',', '.')
+                    val parsed = sanitized.toFloatOrNull()
+                    when {
+                        sanitized.isBlank() -> onChangeHeight(null)
+                        parsed != null -> onChangeHeight(unitSystem.convertHeight(parsed, UnitSystem.DEFAULT))
                     }
                 },
                 label = { Text(if (unitSystem == UnitSystem.METRIC) "Height (cm)" else "Height (in)") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Next
                 ),
                 modifier = Modifier.fillMaxWidth(),
                 trailingIcon = {
-                    Text("cm", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(
+                        if (unitSystem == UnitSystem.METRIC) "cm" else "in",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 },
                 shape = MaterialTheme.shapes.large,
                 isError = validation.heightError != null,
@@ -106,28 +110,32 @@ fun BmiInputSection(
             )
 
             OutlinedTextField(
-                value = if (weight!= null) UnitSystem.DEFAULT.convertWeight(weight, unitSystem).toString() else "",
+                value = if (weight != null) UnitSystem.DEFAULT.convertWeight(weight, unitSystem).toString() else "",
                 onValueChange = { newValue ->
-                    if (newValue.isNotEmpty() || newValue.toFloatOrNull() != null) {
-                        onChangeWeight(unitSystem.convertWeight(newValue.toFloat(), UnitSystem.DEFAULT))
-                    } else {
-                        onChangeWeight(null)
+                    val sanitized = newValue.replace(',', '.')
+                    val parsed = sanitized.toFloatOrNull()
+                    when {
+                        sanitized.isBlank() -> onChangeWeight(null)
+                        parsed != null -> onChangeWeight(unitSystem.convertWeight(parsed, UnitSystem.DEFAULT))
                     }
                 },
                 label = { Text(if (unitSystem == UnitSystem.METRIC) "Weight (kg)" else "Weight (lbs)") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Done
                 ),
                 modifier = Modifier.fillMaxWidth(),
                 trailingIcon = {
-                    Text("kg", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(
+                        if (unitSystem == UnitSystem.METRIC) "kg" else "lb",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 },
                 shape = MaterialTheme.shapes.large,
                 isError = validation.weightError != null,
                 supportingText = {
-                    validation.heightError?.let {
+                    validation.weightError?.let {
                         when(it){
                             is ValidationError.OutOfRangeError -> {
                                 Text(

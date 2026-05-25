@@ -340,7 +340,6 @@ private fun LeftContent(
             enabled = state.validation.isHeightValid && state.validation.isWeightValid // Add your validation check
         ) {
             Text(
-                modifier = Modifier.size(20.dp),
                 text = "Calculate BMI",
                 fontWeight = FontWeight.SemiBold
             )

@@ -21,6 +21,10 @@ fun AnimatedChartSwitcher(
     records: List<HealthRecord>,
     modifier: Modifier = Modifier
 ) {
+    if (records.isEmpty()) {
+        EmptyChartPlaceholder(message = "No chart data yet")
+        return
+    }
     val dataType = when (chartState.chartType) {
         ChartType.BMI -> DataType.BMI
         ChartType.HEIGHT -> DataType.HEIGHT
