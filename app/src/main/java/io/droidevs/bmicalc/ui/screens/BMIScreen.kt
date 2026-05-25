@@ -95,11 +95,13 @@ fun BMIScreen(
         ) {
             LeftContent(
                 state = state,
-                onAction = onAction
+                onAction = onAction,
+                enableScroll = false
             )
             RightContent(
                 state = state,
-                onAction = onAction
+                onAction = onAction,
+                enableScroll = false
             )
         }
     }
@@ -179,11 +181,20 @@ private fun BmiCalculatorAppBar(
 private fun RightContent(
     state: BmiCalculatorState,
     onAction: (BmiCalculatorScreenAction) -> Unit,
+    enableScroll: Boolean = true,
 ){
+    val scrollModifier = if (enableScroll) {
+        Modifier.verticalScroll(rememberScrollState())
+    } else {
+        Modifier
+    }
+    val sizeModifier = if (enableScroll) {
+        Modifier.fillMaxSize()
+    } else {
+        Modifier.fillMaxWidth()
+    }
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        modifier = sizeModifier.then(scrollModifier),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -277,11 +288,20 @@ private fun RightContent(
 private fun LeftContent(
     state : BmiCalculatorState,
     onAction : (BmiCalculatorScreenAction) -> Unit,
+    enableScroll: Boolean = true,
 ){
+    val scrollModifier = if (enableScroll) {
+        Modifier.verticalScroll(rememberScrollState())
+    } else {
+        Modifier
+    }
+    val sizeModifier = if (enableScroll) {
+        Modifier.fillMaxSize()
+    } else {
+        Modifier.fillMaxWidth()
+    }
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        modifier = sizeModifier.then(scrollModifier),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {

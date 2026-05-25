@@ -129,6 +129,7 @@ private fun PortraitHistoryScreen(
     onSettingsClick: () -> Unit,
 ){
     CompactLayoutWithScaffold(
+        allowScroll = false,
         topAppBar = {
             HistoryScreenAppBar(
                 onMenuClick = onMenuClick,
