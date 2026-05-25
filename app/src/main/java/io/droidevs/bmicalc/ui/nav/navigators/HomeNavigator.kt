@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import io.droidevs.bmicalc.ui.nav.roots.Destination
 import io.droidevs.bmicalc.ui.nav.roots.Graph
+import io.droidevs.bmicalc.ui.nav.roots.Screen
 
 class HomeNavigator(
     navController: NavHostController,
@@ -16,7 +17,7 @@ class HomeNavigator(
 @Composable
 fun rememberHomeNavigator(
     navController: NavHostController = rememberNavController(),
-    startDestination: Destination = Graph.Home
+    startDestination: Destination = Screen.Calculator
 ) : HomeNavigator {
     return remember(navController,startDestination) {
         HomeNavigator(

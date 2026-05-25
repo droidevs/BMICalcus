@@ -3,18 +3,21 @@ package io.droidevs.bmicalc.data.db.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
-import io.droidevs.bmicalc.domain.model.BmiRecord
 
 @Entity(
     tableName = "favorite_bmi_records",
     foreignKeys = [
         ForeignKey(
-            entity = BmiRecord::class,
+            entity = BmiRecordEntity::class,
             parentColumns = ["id"],
             childColumns = ["bmiRecordId"],
             onDelete = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index(value = ["bmiRecordId"])
     ]
 )
 data class FavoriteBmiRecordEntity(

@@ -3,8 +3,8 @@ package io.droidevs.bmicalc.domain.pager
 import io.droidevs.bmicalc.domain.result.onFailureSuspend
 import io.droidevs.bmicalc.domain.result.onSuccessSuspend
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
-import io.droidevs.wallpaper.domain.result.errors.Error
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.Error
 
 abstract class DefaultPaginator<Key,Item>(
     val initialKey : Key,

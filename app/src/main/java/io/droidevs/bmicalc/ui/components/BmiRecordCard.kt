@@ -38,12 +38,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import io.droidevs.bmicalc.domain.BmiRecord
-import io.droidevs.bmicalc.model.BMICategory
+import io.droidevs.bmicalc.domain.model.BMICategory
 import io.droidevs.bmicalc.data.model.UnitSystem
 import io.droidevs.bmicalc.ui.model.BmiRecordUi
 import io.droidevs.bmicalc.ui.window.LayoutMode
 import io.droidevs.bmicalc.ui.window.LocalWindow
+import kotlinx.datetime.Instant
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -121,32 +121,27 @@ fun BmiRecordCard(
             if (!isVertical.value) {
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text(
-                    text =
-                    if (unitSystem == UnitSystem.METRIC)
-                        "${record.height} ${"cm"}"
-                    else
-                        "${record.weight.convert(UnitSystem.METRIC, unitSystem)} ${"lbs"}",
+                val displayHeight = UnitSystem.METRIC.convertHeight(record.height, unitSystem)
+                val displayWeight = UnitSystem.METRIC.convertWeight(record.weight, unitSystem)
+                val heightUnit = if (unitSystem == UnitSystem.METRIC) "cm" else "in"
+                val weightUnit = if (unitSystem == UnitSystem.METRIC) "kg" else "lb"
 
+                Text(
+                    text = "Height: %.1f %s".format(displayHeight, heightUnit),
                     style = MaterialTheme.typography.bodyMedium
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    val formatDate = rememberSmartDateFormat()
-                    Text(text = formatDate(record.date))
-                    IconButton(
-                        onClick = { showDeleteDialog = true },
-                        modifier = Modifier.size(24.dp)
-                    ) {
-                        Icon(Icons.Default.Delete, contentDescription = "Delete")
-                    }
-                }
+                Text(
+                    text = "Weight: %.1f %s".format(displayWeight, weightUnit),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                val formatDate = rememberSmartDateFormat()
+                Text(text = formatDate(Instant.fromEpochMilliseconds(record.date)))
             }
         }
     }
@@ -228,5 +223,5 @@ fun BmiRecordCardWithActions(
 private fun Float.convert(currentUnitSystem: UnitSystem, targetUnitSystem: UnitSystem): Float{
     if (currentUnitSystem == targetUnitSystem)
         return this
-    return TODO()
+    return currentUnitSystem.convertWeight(this, targetUnitSystem)
 }

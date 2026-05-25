@@ -5,7 +5,7 @@ import io.droidevs.bmicalc.data.model.UnitSystem
 import io.droidevs.bmicalc.domain.model.BmiFilter
 import io.droidevs.bmicalc.ui.model.BmiRecordUi
 import io.droidevs.bmicalc.ui.model.LoadingMode
-import io.droidevs.wallpaper.domain.result.errors.Error
+import io.droidevs.bmicalc.domain.result.errors.Error
 
 
 data class HistoryState(

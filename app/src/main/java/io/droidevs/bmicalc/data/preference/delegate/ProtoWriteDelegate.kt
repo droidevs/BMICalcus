@@ -2,7 +2,7 @@ package io.droidevs.bmicalc.data.preference.delegate
 
 import androidx.datastore.core.DataStore
 import io.droidevs.bmicalc.data.preference.exceptions.runCatchingPreference
-import io.droidevs.wallpaper.domain.result.errors.PreferenceError
+import io.droidevs.bmicalc.domain.result.errors.PreferenceError
 import io.droidevs.wallpaper.domain.result.Result
 
 

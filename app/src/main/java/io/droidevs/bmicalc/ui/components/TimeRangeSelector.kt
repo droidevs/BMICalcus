@@ -39,7 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.droidevs.bmicalc.model.TimeRange
+import io.droidevs.bmicalc.domain.model.TimeRange
 import io.droidevs.bmicalc.ui.helper.states.ChartState
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit

@@ -6,7 +6,6 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
 import android.view.WindowMetrics
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -29,16 +28,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
+import dagger.hilt.android.AndroidEntryPoint
 import io.droidevs.bmicalc.ui.snackbar.SnackBarController
 import io.droidevs.bmicalc.ui.theme.BmiCalcTheme
 import io.droidevs.bmicalc.ui.utils.ObserveAsEvents
 import io.droidevs.bmicalc.ui.utils.ObserveAsEventsCompose
+import io.droidevs.bmicalc.ui.layouts.HomeDashboard
 
 import io.droidevs.bmicalc.ui.window.LocalWindow
 import io.droidevs.bmicalc.ui.window.WindowInfo
@@ -49,11 +52,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class BmiCalcActivity : ComponentActivity() {
 
     private var windowInfoFlow = mutableStateOf(WindowInfo())
 
-    val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
     var windowInfoTracker : WindowInfoTracker? = null
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -130,5 +133,11 @@ class BmiCalcActivity : ComponentActivity() {
 
 @Composable
 fun Content(paddingValues: PaddingValues){
-    TODO()
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+    ) {
+        HomeDashboard()
+    }
 }

@@ -6,7 +6,7 @@ import io.droidevs.bmicalc.data.preference.exceptions.runCatchingPreference
 import io.droidevs.bmicalc.data.preference.exceptions.runCatchingPreferenceWithResult
 import kotlinx.coroutines.flow.Flow
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.PreferenceError
+import io.droidevs.bmicalc.domain.result.errors.PreferenceError
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 

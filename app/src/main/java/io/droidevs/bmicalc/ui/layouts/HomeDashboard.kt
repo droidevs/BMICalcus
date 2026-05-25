@@ -9,34 +9,51 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import io.droidevs.bmicalc.R
 import io.droidevs.bmicalc.ui.components.AppNavRail
 import io.droidevs.bmicalc.ui.components.BottomNavigationBar
+import io.droidevs.bmicalc.ui.components.DrawerController
 import io.droidevs.bmicalc.ui.components.NavigationDrawer
 import io.droidevs.bmicalc.ui.model.NavigationItem
-import io.droidevs.bmicalc.ui.nav.navigators.DefaultNavigator
-import io.droidevs.bmicalc.ui.nav.navigators.Navigator
-import io.droidevs.bmicalc.ui.nav.navigators.RootAppNavigator
-import io.droidevs.bmicalc.ui.nav.navigators.rememberRootNavigator
+import io.droidevs.bmicalc.ui.nav.navigators.HomeDashboardNavigator
+import io.droidevs.bmicalc.ui.nav.navigators.rememberHomeDashboardNavigator
 import io.droidevs.bmicalc.ui.nav.roots.Graph
+import io.droidevs.bmicalc.ui.nav.chartScreen
+import io.droidevs.bmicalc.ui.nav.editRecordScreen
+import io.droidevs.bmicalc.ui.nav.historyScreen
+import io.droidevs.bmicalc.ui.nav.homeNavHost
+import io.droidevs.bmicalc.ui.nav.recordDetailScreen
+import io.droidevs.bmicalc.ui.nav.roots.Screen
 import io.droidevs.bmicalc.ui.window.LocalWindow
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun HomeDashboard(navController: NavController) {
+fun HomeDashboard() {
 
     val layoutMode = LocalWindow.current.layoutMode
 
-    val navigator = rememberRootNavigator()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val navigator = rememberHomeDashboardNavigator()
+    val navBackStackEntry by navigator.navController.currentBackStackEntryAsState()
+    val drawerController = remember { DrawerController() }
+    val scope = rememberCoroutineScope()
+    val toggleDrawer: () -> Unit = {
+        scope.launch {
+            if (drawerController.isOpen()) {
+                drawerController.close()
+            } else {
+                drawerController.open()
+            }
+        }
+        Unit
+    }
 
     val navigationItems: List<NavigationItem> = listOf(
         NavigationItem(
@@ -64,14 +81,13 @@ fun HomeDashboard(navController: NavController) {
 
     val selectedItem by remember {
         derivedStateOf {
-            if (navBackStackEntry?.destination?.route == "bmi")
-                navigationItems[0]
-            else if (navBackStackEntry?.destination?.route == "chart")
-                navigationItems[1]
-            else if (navBackStackEntry?.destination?.route == "history")
-                navigationItems[2]
-            else
-                navigationItems[0]
+            val route = navBackStackEntry?.destination?.route.orEmpty()
+            when {
+                route.contains(Graph.Home::class.qualifiedName.orEmpty()) -> navigationItems[0]
+                route.contains(Graph.Chart::class.qualifiedName.orEmpty()) -> navigationItems[1]
+                route.contains(Graph.History::class.qualifiedName.orEmpty()) -> navigationItems[2]
+                else -> navigationItems[0]
+            }
         }
     }
 
@@ -81,9 +97,10 @@ fun HomeDashboard(navController: NavController) {
             onItemClick = { item ->
                 navigator.navigateTo(item.root)
             },
-            selectedItem = selectedItem.id
+            selectedItem = selectedItem.id,
+            drawerController = drawerController
         ){
-            DashboardMainContent(navigator)
+            DashboardMainContent(navigator, toggleDrawer)
         }
     }
     else {
@@ -108,35 +125,41 @@ fun HomeDashboard(navController: NavController) {
                 ) {
                     AppNavRail(
                         items = navigationItems,
-                        onClick = {
-                            TODO()
+                        onClick = { item ->
+                            navigator.navigateTo(item.root)
                         },
                         selectedItem = selectedItem.id
                     )
-                    DashboardMainContent(navigator)
+                    DashboardMainContent(navigator, toggleDrawer)
                 }
             } else {
-                DashboardMainContent(navigator)
+                DashboardMainContent(navigator, toggleDrawer)
             }
         }
     }
 }
 
 @Composable
-fun DashboardMainContent(navigator: RootAppNavigator){
+fun DashboardMainContent(
+    navigator: HomeDashboardNavigator,
+    toggleDrawer: () -> Unit
+){
     NavHost (
         navController = navigator.navController,
         startDestination = navigator.startDestination
     ){
-        composable<Graph.Home> {
-
-        }
-        composable<Graph.History> {
-
-        }
-        composable<Graph.Chart> {
-
-        }
+        homeNavHost(
+            gotoSettings = {},
+            toggleDrawer = toggleDrawer
+        )
+        historyScreen(
+            navigator = navigator,
+            onDrawerMenuClick = toggleDrawer,
+            onSettingsClick = {}
+        )
+        chartScreen()
+        recordDetailScreen(navigator)
+        editRecordScreen(navigator)
 
     }
 }

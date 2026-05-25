@@ -4,7 +4,7 @@ import io.droidevs.bmicalc.domain.result.flowRunCatching
 import io.droidevs.bmicalc.domain.result.runCatchingResult
 import io.droidevs.bmicalc.domain.result.runCatchingWithResult
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.PreferenceError
+import io.droidevs.bmicalc.domain.result.errors.PreferenceError
 import kotlinx.coroutines.flow.Flow
 import java.io.IOException
 

@@ -24,7 +24,7 @@ fun DoubleFoldedLayout(
     mainPanel: @Composable () -> Unit,
     detailsPanel: @Composable () -> Unit,
     topAppBar: @Composable () -> Unit,
-    snackbarHostState: @Composable () -> Unit,
+    snackbarHostState: @Composable () -> Unit = { },
     allowScroll: Boolean = true
 ) {
 

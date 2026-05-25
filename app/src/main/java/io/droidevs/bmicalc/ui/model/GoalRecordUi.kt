@@ -1,7 +1,6 @@
 package io.droidevs.bmicalc.ui.model
 
-import io.droidevs.bmicalc.domain.BmiGoal
-import io.droidevs.bmicalc.domain.BmiRecord
+import io.droidevs.bmicalc.domain.model.BmiGoal
 import io.droidevs.bmicalc.domain.GoalFlag
 import kotlinx.datetime.Instant
 

@@ -10,10 +10,11 @@ import android.os.TransactionTooLargeException
 import io.droidevs.bmicalc.domain.result.asResultFlow
 import io.droidevs.bmicalc.domain.result.runCatchingResult
 import io.droidevs.bmicalc.domain.result.runCatchingWithResult
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
 import io.droidevs.wallpaper.domain.result.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlin.jvm.JvmName
 
 
 suspend fun <D> runCatchingDatabaseResult(
@@ -45,6 +46,7 @@ fun <D> Flow<D>.asDatabaseResultFlow(): Flow<Result<D, DatabaseError>> = asResul
 /**
  * For flows that already emit Result types (just transforms errors)
  */
+@JvmName("asDatabaseResultFlowFromResult")
 fun <D> Flow<Result<D, DatabaseError>>.asDatabaseResultFlow(): Flow<Result<D, DatabaseError>> = asResultFlow(
     errorTransform = { e -> e.toDatabaseError() }
 )

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.retry
 import java.io.IOException
+import kotlin.jvm.JvmName
 
 fun <D, E : RootError> result(
     @ResultBuild block: ResultBuilder<D, E>.() -> Result<D, E>
@@ -59,6 +60,7 @@ fun <D, E : RootError> Flow<D>.asResultFlow(
     }
 }
 
+@JvmName("asResultFlowFromResult")
 fun <D, E : RootError> Flow<Result<D, E>>.asResultFlow(
     errorTransform: (Throwable) -> E,
     retries: Int = 2,

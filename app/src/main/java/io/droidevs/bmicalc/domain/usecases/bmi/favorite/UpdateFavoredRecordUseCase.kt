@@ -6,7 +6,7 @@ import io.droidevs.bmicalc.domain.model.FavoredBmiRecord
 import io.droidevs.bmicalc.domain.repository.BmiRepository
 import io.droidevs.bmicalc.domain.result.onSuccessSuspendWithResult
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
 
 class UpdateFavoredRecordUseCase(
     private val repository : FavoriteBmiRepository,

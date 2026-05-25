@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import io.droidevs.bmicalc.model.BMICategory
+import io.droidevs.bmicalc.domain.model.BMICategory
 
 @Composable
 fun BmiCategoriesTable() {

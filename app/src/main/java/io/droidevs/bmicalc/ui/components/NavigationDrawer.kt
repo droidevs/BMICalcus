@@ -43,6 +43,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -96,6 +97,7 @@ fun NavigationDrawer(
     items: List<NavigationItem>,
     selectedItem: Int = -1,
     onItemClick: (NavigationItem) -> Unit,
+    drawerController: DrawerController? = null,
     content: @Composable () -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -103,6 +105,10 @@ fun NavigationDrawer(
 
     val color1 = MaterialTheme.colorScheme.primary.copy(alpha = 0.95f)
     val color2 = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
+
+    SideEffect {
+        drawerController?.setDrawerState(drawerState)
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -208,12 +214,12 @@ fun DrawerHeader(
                 .fillMaxWidth()
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.2f))
-                .clickable { TODO() }
+                .clickable { }
                 .padding(4.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
             BmiDrawerIndicator(
-                bmiValue = TODO()
+                bmiValue = 22f
             )
         }
 

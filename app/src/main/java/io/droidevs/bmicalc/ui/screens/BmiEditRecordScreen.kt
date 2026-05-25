@@ -53,11 +53,11 @@ fun BmiEditRecordScreen(
     ) {
         BmiInputSection(
             unitSystem = state.unitSystem,
-            height = state.edited.height,
-            weight = state.edited.weight,
+            height = state.edited.height.takeIf { it > 0f },
+            weight = state.edited.weight.takeIf { it > 0f },
             validation = state.validationResult,
-            onChangeHeight = { onAction(BmiRecordEditAction.ChangeRecordWeight(it)) },
-            onChangeWeight = { onAction(BmiRecordEditAction.ChangeRecordHeight(it)) },
+            onChangeHeight = { onAction(BmiRecordEditAction.ChangeRecordHeight(it ?: -1f)) },
+            onChangeWeight = { onAction(BmiRecordEditAction.ChangeRecordWeight(it ?: -1f)) },
             modifier = Modifier.fillMaxWidth()
         )
 

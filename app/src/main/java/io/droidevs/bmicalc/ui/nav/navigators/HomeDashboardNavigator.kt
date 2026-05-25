@@ -6,10 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import io.droidevs.bmicalc.ui.nav.roots.Destination
 import io.droidevs.bmicalc.ui.nav.roots.Graph
-import io.droidevs.bmicalc.ui.nav.roots.Screen
 
-class RootAppNavigator(navController: NavHostController,
-                       startDestination: Destination
+class HomeDashboardNavigator(navController: NavHostController,
+                             startDestination: Destination
 ) : DefaultNavigator(navController, startDestination) {
 
     override fun <T : Destination> navigateTo(destination: T) {
@@ -28,12 +27,12 @@ class RootAppNavigator(navController: NavHostController,
 }
 
 @Composable
-fun rememberRootNavigator(
+fun rememberHomeDashboardNavigator(
     navController: NavHostController = rememberNavController(),
     startDestination: Destination = Graph.Home
-) : RootAppNavigator {
+) : HomeDashboardNavigator {
     return remember(navController,startDestination) {
-        RootAppNavigator(
+        HomeDashboardNavigator(
             navController = navController,
             startDestination = startDestination,
         )

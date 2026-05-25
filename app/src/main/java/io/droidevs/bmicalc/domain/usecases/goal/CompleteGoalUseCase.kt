@@ -1,9 +1,9 @@
 package io.droidevs.bmicalc.domain.usecases.goal
 
 import io.droidevs.bmicalc.data.model.ActiveBmiGoal
-import io.droidevs.bmicalc.data.repository.BmiGoalRecordRepository
+import io.droidevs.bmicalc.domain.repository.BmiGoalRecordRepository
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
 
 class CompleteGoalUseCase(
     private val repository: BmiGoalRecordRepository

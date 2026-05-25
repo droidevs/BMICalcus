@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import io.droidevs.bmicalc.domain.result.map
 import io.droidevs.bmicalc.domain.result.mapResult
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.PreferenceError
+import io.droidevs.bmicalc.domain.result.errors.PreferenceError
 import kotlinx.coroutines.flow.Flow
 
 interface MapperPreferenceDelegate<T> {

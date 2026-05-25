@@ -4,6 +4,7 @@ plugins {
     id("com.google.devtools.ksp")
     kotlin("plugin.serialization") version "2.0.21"
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -56,6 +57,7 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.datastore.core)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -100,4 +102,5 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation ("com.airbnb.android:lottie-compose:6.3.0")
 }

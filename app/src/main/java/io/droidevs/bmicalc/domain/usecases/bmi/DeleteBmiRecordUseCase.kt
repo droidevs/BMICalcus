@@ -3,7 +3,8 @@ package io.droidevs.bmicalc.domain.usecases.bmi
 import io.droidevs.bmicalc.domain.repository.BmiRepository
 import io.droidevs.bmicalc.domain.model.BmiRecord
 import io.droidevs.wallpaper.domain.result.Result
-import io.droidevs.wallpaper.domain.result.errors.DatabaseError
+import io.droidevs.bmicalc.domain.result.errors.DatabaseError
+import kotlin.jvm.JvmName
 
 class DeleteBmiRecordUseCase(
     private val bmiRepository: BmiRepository,
@@ -25,6 +26,7 @@ class DeleteBmiRecordUseCase(
         }
     }
 
+    @JvmName("invokeByIds")
     suspend operator fun invoke(recordsId: List<Long>) : Result<Int, DatabaseError>{
         return bmiRepository.deleteRecords(recordsId)
     }

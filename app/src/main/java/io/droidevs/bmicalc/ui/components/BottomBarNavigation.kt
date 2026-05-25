@@ -25,13 +25,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.droidevs.bmicalc.ui.model.NavigationItem
+import io.droidevs.bmicalc.ui.nav.roots.Destination
 
 
 @Composable
 fun BottomNavigationBar(
     navigationItems: List<NavigationItem>,
     selected: Int,
-    onNavigateTo: (id: Int) -> Unit
+    onNavigateTo: (item: NavigationItem) -> Unit
 ) {
     NavigationBar(
         modifier = Modifier
@@ -66,7 +67,7 @@ fun BottomNavigationBar(
 
             NavigationBarItem(
                 selected = isSelected,
-                onClick = { onNavigateTo(item.id) },
+                onClick = { onNavigateTo(item) },
                 label = {
                     Text(
                         text = item.title,
@@ -102,18 +103,21 @@ fun previewNavigationItems(): List<NavigationItem> {
             title = "Home",
             selectedIcon = ImageVector.vectorResource(android.R.drawable.star_on),
             unselectedIcon = ImageVector.vectorResource(android.R.drawable.star_off),
+            root = Destination()
         ),
         NavigationItem(
             id = 1,
             title = "Search",
             selectedIcon = ImageVector.vectorResource(android.R.drawable.ic_menu_search),
             unselectedIcon = ImageVector.vectorResource(android.R.drawable.ic_menu_search),
+            root = Destination()
         ),
         NavigationItem(
             id = 2,
             title = "Profile",
             selectedIcon = ImageVector.vectorResource(android.R.drawable.ic_menu_manage),
             unselectedIcon = ImageVector.vectorResource(android.R.drawable.ic_menu_manage),
+            root = Destination()
         ),
     )
 }
