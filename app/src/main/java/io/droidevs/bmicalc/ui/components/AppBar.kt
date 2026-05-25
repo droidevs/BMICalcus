@@ -97,11 +97,11 @@ fun AnimatedAppBar(
             ) {
                 Text(
                     text = title ?: stringResource(id = R.string.app_name),
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     modifier = Modifier.graphicsLayer {
-                        shadowElevation = 8f
+                        shadowElevation = 4f
                         shape = RoundedCornerShape(12.dp)
                     }
                 )
@@ -118,8 +118,8 @@ fun AnimatedAppBar(
                     end = Offset(x = 0f, y = shimmerOffset)
                 )
             )
-            .padding(vertical = 6.dp)
-            .shadow(8.dp, shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)),
+            .padding(vertical = 2.dp)
+            .shadow(4.dp, shape = RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent, // Background is handled by gradient.
             titleContentColor = Color.White,

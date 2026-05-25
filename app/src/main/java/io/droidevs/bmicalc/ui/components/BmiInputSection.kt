@@ -58,10 +58,18 @@ fun BmiInputSection(
     var weightText by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(displayHeight, unitSystem) {
-        heightText = displayHeight?.let { numberFormatter.format(it) } ?: ""
+        if (displayHeight != null) {
+            heightText = numberFormatter.format(displayHeight)
+        } else if (heightText.isBlank()) {
+            heightText = ""
+        }
     }
     LaunchedEffect(displayWeight, unitSystem) {
-        weightText = displayWeight?.let { numberFormatter.format(it) } ?: ""
+        if (displayWeight != null) {
+            weightText = numberFormatter.format(displayWeight)
+        } else if (weightText.isBlank()) {
+            weightText = ""
+        }
     }
     // Responsive sizing
     val textFieldWidth by animateDpAsState(

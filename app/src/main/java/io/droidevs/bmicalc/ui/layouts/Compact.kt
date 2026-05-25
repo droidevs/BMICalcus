@@ -62,7 +62,7 @@ fun CompactLayoutWithScaffold(
     Scaffold(
         topBar = { topAppBar() },
         floatingActionButton = { floatingActionButton() }
-    ) {
+    ) { paddingValues ->
         val appLayoutMode = LocalWindow.current.layoutMode
 
         var sidePadding = 0.dp
@@ -85,6 +85,7 @@ fun CompactLayoutWithScaffold(
 
         var columnModifier: Modifier = Modifier
             .fillMaxWidth()
+            .padding(paddingValues)
             .padding(columnPadding)
 
         // Apply scrolling behavior

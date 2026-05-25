@@ -6,6 +6,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import io.droidevs.bmicalc.ui.model.NavigationItem
 import io.droidevs.bmicalc.ui.nav.roots.Destination
 
@@ -36,8 +38,9 @@ fun BottomNavigationBar(
     NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(10.dp, shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-            .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+            .height(56.dp)
+            .shadow(4.dp, shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
@@ -47,13 +50,13 @@ fun BottomNavigationBar(
                 )
             ),
         containerColor = Color.Transparent,
-        tonalElevation = 12.dp
+        tonalElevation = 4.dp
     ) {
         navigationItems.forEach { item ->
             val isSelected = item.id == selected
 
             val iconSize by animateDpAsState(
-                targetValue = if (isSelected) 32.dp else 24.dp,
+                targetValue = if (isSelected) 24.dp else 20.dp,
                 animationSpec = spring(dampingRatio = 0.5f, stiffness = 300f), label = ""
             )
 
@@ -70,7 +73,7 @@ fun BottomNavigationBar(
                     Text(
                         text = item.title,
                         color = iconColor,
-                        style = TextStyle(fontWeight = FontWeight.Medium)
+                        style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 11.sp)
                     )
                 },
                 icon = {
